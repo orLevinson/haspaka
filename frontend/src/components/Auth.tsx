@@ -5,11 +5,7 @@ const Auth = () => {
 
     const [jwt, setJwt] = useState('');
 
-    const getToken = () => {
-        setJwt(localStorage.getItem('jwt'));
-        console.log("hi");
-
-    }
+    const getToken = () => setJwt(localStorage.getItem('jwt'));
 
     useEffect(() => {
         getToken();
