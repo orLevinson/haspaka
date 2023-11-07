@@ -6,28 +6,55 @@ import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import { useQuery } from "react-query";
 import axios from "axios";
+import { unit } from "../types/unit";
+import { command } from "../types/command";
 
 const Units = () => {
 
-    const unitsQuery = useQuery('units', () =>
+    const unitsQuery = useQuery<unit[]>('units', () =>
         fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/units").then(res => res.json())
     );
 
+    const commandsQuery = useQuery<command[]>('commands', () =>
+        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/commands").then(res => res.json())
+    );
+
     const gridRef = useRef(); // Optional - for accessing Grid's API
-    const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
+    const [rowData, setRowData] = useState<unit[]>([]); // Set rowData to Array of Objects, one Object per Row
+    const [commandMappings, setCommandMappings] = useState<{ [key: number]: string }>({});
+    const [columnDefs, setColumnDefs] = useState([]);
 
     useEffect(() => {
         if (unitsQuery.data) setRowData(unitsQuery.data);
-        console.log(rowData);
-
     }, [unitsQuery.data]);
 
-    // Each Column Definition results in one Column.
-    const [columnDefs, setColumnDefs] = useState([
-        { field: 'unit_id', headerName: 'מזהה', filter: true, editable: false, hide: true },
-        { field: 'unit_name', headerName: 'שם הפריט', filter: true },
-        { field: 'command_id', headerName: 'פיקוד' }
-    ]);
+    useEffect(() => {
+        if (commandsQuery.data) {
+            const c = {};
+            commandsQuery.data.forEach(command => {
+                c[command.command_id] = command.command_name;
+            });
+            setCommandMappings(c);
+        }
+    }, [commandsQuery.data]);
+
+
+    useEffect(() => {
+        setColumnDefs([
+            { field: 'unit_id', headerName: 'מזהה', filter: true, editable: false, hide: true },
+            { field: 'unit_name', headerName: 'שם הפריט', filter: true },
+            {
+                field: 'command_id',
+                headerName: 'פיקוד',
+                cellEditor: 'agSelectCellEditor',
+                filter: 'agSetColumnFilter',
+                cellEditorParams: {
+                    values: Object.keys(commandMappings)
+                } as ISelectCellEditorParams,
+                refData: commandMappings
+            }
+        ]);
+    }, [commandMappings])
 
     // DefaultColDef sets props common to all Columns
     const defaultColDef = useMemo(() => ({
@@ -47,10 +74,7 @@ const Units = () => {
     }, []);
 
     const handleChange = e => {
-        console.log(e.data);
         const copy = structuredClone(e.data);
-        console.log(copy);
-
         updateUnit(copy);
     }
 

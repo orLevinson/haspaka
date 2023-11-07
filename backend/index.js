@@ -18,7 +18,12 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/units", async (req, res, next) => {
-  const { rows } = await pool.query("SELECT * FROM Units");
+  const { rows } = await pool.query('SELECT * FROM units');
+  res.status(200).json(rows);
+});
+
+app.get("/commands", async (req, res, next) => {
+  const { rows } = await pool.query('SELECT * FROM commands');
   res.status(200).json(rows);
 });
 
