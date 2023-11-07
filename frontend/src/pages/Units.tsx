@@ -44,7 +44,7 @@ const Units = () => {
             units page
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine mx-auto" style={{ width: 500, height: 500 }}>
+            <div className="ag-theme-alpine mx-auto" style={{ width: '100%', height: 500 }}>
 
                 <AgGridReact
                     ref={gridRef} // Ref for accessing Grid's API

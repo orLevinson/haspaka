@@ -8,6 +8,9 @@ import {
 } from "react-router-dom";
 import Units from './pages/Units.tsx';
 import Commands from './pages/Commands.tsx';
+import Login from './pages/Login.tsx';
+import Register from './pages/Register.tsx';
+import Logout from './pages/Logout.tsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +24,18 @@ const router = createBrowserRouter([
       {
         path: "/commands",
         element: <Commands />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
       },
     ]
   },
