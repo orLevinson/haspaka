@@ -36,6 +36,15 @@ app.post('/updateUnit', async (req, res, next) => {
   res.status(200).json(unitId);
 });
 
+app.post('/addUnit', async (req, res, next) => {
+  const randomNumber = Math.floor(1000 + Math.random() * 9000);
+  const unitId = await pool.query(`
+    INSERT INTO units(unit_name, command_id) VALUES ('${req.body.unit_name + randomNumber}', ${req.body.command_id}) 
+      RETURNING unit_id
+  `);
+  res.status(200).json(unitId);
+});
+
 app.listen(port, () => {
   console.log(`app started at port ${port}`);
 });

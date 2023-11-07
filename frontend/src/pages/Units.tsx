@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { unit } from "../types/unit";
 import { command } from "../types/command";
+import { ColDef } from "ag-grid-community";
 
 const Units = () => {
 
@@ -22,7 +23,7 @@ const Units = () => {
     const gridRef = useRef(); // Optional - for accessing Grid's API
     const [rowData, setRowData] = useState<unit[]>([]); // Set rowData to Array of Objects, one Object per Row
     const [commandMappings, setCommandMappings] = useState<{ [key: number]: string }>({});
-    const [columnDefs, setColumnDefs] = useState([]);
+    const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
 
     useEffect(() => {
         if (unitsQuery.data) setRowData(unitsQuery.data);
@@ -51,7 +52,7 @@ const Units = () => {
                 cellEditorParams: {
                     values: Object.keys(commandMappings)
                 } as ISelectCellEditorParams,
-                refData: commandMappings
+                refData: commandMappings,
             }
         ]);
     }, [commandMappings])
@@ -78,16 +79,28 @@ const Units = () => {
         updateUnit(copy);
     }
 
+    const handleAdd = () => {
+        const newItem = { unit_name: 'פריט', command_id: Object.keys(commandMappings)[0] };
+        addUnit(newItem);
+    }
+
     const updateUnit = unit => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/updateUnit", unit)
+        .then(res => unitsQuery.refetch())
+        .catch(err => console.error(unit));
+
+    const addUnit = unit => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/addUnit", unit)
         .then(res => unitsQuery.refetch())
         .catch(err => console.error(unit));
 
     return (
         <div className="flex flex-col justify-center gap-4">
-            units page
+            <div className="flex items-center justify-between w-[80%] mx-auto">
+                <button onClick={handleAdd} className="bg-slate-200 py-2 px-4 rounded-md shadow">הוסף פריט</button>
+                <span>הגדרת פריטים</span>
+            </div>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine mx-auto" style={{ width: 750, height: 500 }}>
+            <div className="ag-theme-alpine mx-auto" style={{ width: '80%', height: 500 }}>
 
                 <AgGridReact
                     ref={gridRef} // Ref for accessing Grid's API
