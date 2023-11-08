@@ -12,6 +12,11 @@ const getAuth = async (req: Request, res: Response, next: NextFunction) => {
     return next();
   }
 
+  /* #swagger.security = [{
+            "bearerAuth": [],
+            "apiKeyAuth": []
+    }] */
+
   try {
     //on app.js we allow the attach so the Authorization header
     const token = req.headers.authorization.split(" ")[1]; // Authorization : 'Bearer TOKEN' //split give an array of 2 values [Bearer,TOKEN]
