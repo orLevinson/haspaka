@@ -13,23 +13,12 @@ import GenericGrid from "../components/GenericGrid";
 
 const Units = () => {
 
-    const unitsQuery = useQuery<unit[]>('units', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/units").then(res => res.json())
-    );
-
     const commandsQuery = useQuery<command[]>('commands', () =>
         fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/commands").then(res => res.json())
     );
 
-    const gridRef = useRef(); // Optional - for accessing Grid's API
-    const [rowData, setRowData] = useState<unit[]>([]); // Set rowData to Array of Objects, one Object per Row
     const [commandMappings, setCommandMappings] = useState<{ [key: number]: string }>({});
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
-    const [selectedRows, setSelectedRows] = useState<unit[]>([]);
-
-    useEffect(() => {
-        if (unitsQuery.data) setRowData(unitsQuery.data);
-    }, [unitsQuery.data]);
 
     useEffect(() => {
         if (commandsQuery.data) {
@@ -58,44 +47,11 @@ const Units = () => {
         ]);
     }, [commandMappings])
 
-    const handleChange = e => {
-        const copy = structuredClone(e.data);
-        updateUnit(copy);
-    }
-
-    const handleAdd = () => {
-        const newItem = { unit_name: 'אוגדה', command_id: Object.keys(commandMappings)[0] };
-        addUnit(newItem);
-    }
-
-    const handleRemove = () => {
-        const ids = selectedRows.map(unit => unit.unit_id);
-        removeUnits(ids.toString());
-    }
-
-    const updateUnit = unit => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/updateUnit", unit)
-        .then(res => unitsQuery.refetch())
-        .catch(err => console.error(err));
-
-    const addUnit = unit => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/addUnit", unit)
-        .then(res => unitsQuery.refetch())
-        .catch(err => console.error(err));
-
-    const removeUnits = (ids: string) => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/removeUnits", { ids })
-        .then(res => unitsQuery.refetch())
-        .catch(err => console.error(err));
-
     return (
         <GenericGrid
+            type="units"
             title="הגדרת אוגדות"
-            handleAdd={handleAdd}
-            handleRemove={handleRemove}
-            handleChange={handleChange}
             columnDefs={columnDefs}
-            rowData={rowData}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
-            gridRef={gridRef}
         />
     )
 }

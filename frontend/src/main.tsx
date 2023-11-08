@@ -12,6 +12,7 @@ import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import Logout from './pages/Logout.tsx';
 import Items from './pages/Items.tsx';
+import IdealInventory from './pages/IdealInventory.tsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/items",
         element: <Items />
+      },
+      {
+        path: "/idealInventory",
+        element: <IdealInventory />
       },
       {
         path: "/units",

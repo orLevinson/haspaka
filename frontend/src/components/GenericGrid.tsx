@@ -1,18 +1,21 @@
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useQuery } from "react-query";
+import { GenericGridProps } from "../types/GenericGridProps";
+import axios from "axios";
 
+const GenericGrid = (props: GenericGridProps) => {
 
-// need props
-// title
-// rowData
-// columnDefs
-// handleRemove
-// handleChange
-// handleAdd
-// gridRef
-// setSelectedRows
+    const gridRef = useRef();
+    const url = `${import.meta.env.VITE_REACT_APP_BASE_URL}/${props.type}`;
+    const [rowData, setRowData] = useState([]);
+    const [selectedRows, setSelectedRows] = useState<unit[]>([]);
 
-const GenericGrid = props => {
+    const query = useQuery(props.type, () => fetch(url).then(res => res.json()));
+
+    useEffect(() => {
+        if (query.data) setRowData(query.data);
+    }, [query.data]);
 
     const defaultColDef = useMemo(() => ({
         sortable: true,
@@ -21,15 +24,40 @@ const GenericGrid = props => {
     }));
 
     const cellClickedListener = useCallback(event => {
-        props.setSelectedRows(props.gridRef.current!.api.getSelectedRows());
+        setSelectedRows(gridRef.current!.api.getSelectedRows());
     }, []);
+
+    const handleChange = e => {
+        const copy = structuredClone(e.data);
+        console.log(e.data);
+
+        update(copy);
+    }
+
+    const handleRemove = () => {
+        const ids: string[] = selectedRows.map(item => item[`${props.type.slice(0, -1)}_id`]);
+        // remove(ids);
+        remove(ids.toString());
+    }
+
+    const add = () => axios.post(url)
+        .then(res => query.refetch())
+        .catch(err => console.error(err));
+
+    const update = (item) => axios.patch(url, item)
+        .then(res => query.refetch())
+        .catch(err => console.error(err));
+
+    const remove = (ids: string) => axios.delete(url,  { data: { ids } })
+        .then(res => query.refetch())
+        .catch(err => console.error(err));
 
     return (
         <div className="flex flex-col justify-center gap-4">
             <div className="flex items-center justify-between w-[50%] mx-auto">
                 <span className="flex gap-4">
-                    <button onClick={props.handleAdd} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
-                    {0 < props.selectedRows.length && <button onClick={props.handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
+                    <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
+                    {0 < selectedRows.length && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
                 </span>
                 <span>{props.title}</span>
             </div>
@@ -38,10 +66,10 @@ const GenericGrid = props => {
             <div className="ag-theme-alpine mx-auto w-[50%] h-[70vh] shadow-lg">
 
                 <AgGridReact
-                    ref={props.gridRef} // Ref for accessing Grid's API
+                    ref={gridRef} // Ref for accessing Grid's API
                     enableRtl={true}
-                    rowData={props.rowData} // Row Data for Rows
-                    onCellValueChanged={props.handleChange}
+                    rowData={rowData} // Row Data for Rows
+                    onCellValueChanged={handleChange}
                     columnDefs={props.columnDefs} // Column Defs for Columns
                     defaultColDef={defaultColDef} // Default Column Properties
                     enableCellChangeFlash={true}
