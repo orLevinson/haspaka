@@ -19,7 +19,7 @@ router.get("/", commandsMiddleware.getCommands);
 
 router.post(
   "/",
-  [check("command_name").not().isEmpty(), check("command_name").isString()],
+  [check("command_name").isString().optional()],
   commandsMiddleware.addCommand
 );
 
@@ -35,8 +35,12 @@ router.patch(
 );
 
 router.delete(
-  "/:cid",
-  [param("cid").not().isEmpty(), param("cid").isNumeric()],
+  "/",
+  [
+    check("commands_ids").not().isEmpty(),
+    check("commands_ids").isArray(),
+    check("commands_ids.*").isNumeric(),
+  ],
   commandsMiddleware.deleteCommand
 );
 

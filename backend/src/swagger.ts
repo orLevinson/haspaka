@@ -15,6 +15,10 @@ const doc = {
             name: 'Commands',
             description: "Commands based routes, also substitutes as permissions for users"
         },
+        {
+            name: 'Units',
+            description: "All the divisions beneath the commands"
+        },
     ],
     servers: [
         {

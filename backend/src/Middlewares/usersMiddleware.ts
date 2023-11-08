@@ -147,7 +147,7 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const user_id = parseInt(req.params.uid);
+  const user_id: number[] = [parseInt(req.params.uid)];
   const usersController = new UsersController(next);
   const user = await usersController.deleteUser(user_id);
   res.json({ success: true, body: user });

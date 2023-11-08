@@ -5,6 +5,8 @@ import HttpError from "../Models/http-error";
 import CommandsController from "../Models/commandsController";
 // types
 import Request from "../Types/ExtendedRequest";
+// Random ID
+import { v4 as uuid } from "uuid";
 
 const getCommands = async (req: Request, res: Response, next: NextFunction) => {
   const commandsController = new CommandsController(next);
@@ -22,9 +24,14 @@ const addCommand = async (req: Request, res: Response, next: NextFunction) => {
     );
   }
 
+  let command_name = req.body.command_name;
+  if (!command_name) {
+    command_name = `פיקוד ${uuid()}`;
+  }
+
   const commandsController = new CommandsController(next);
   const command = await commandsController.add({
-    command_name: req.body.command_name,
+    command_name,
   });
   if (command) {
     return res.json({ success: true, body: command });
@@ -63,9 +70,9 @@ const deleteCommand = async (
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const command_id = parseInt(req.params.cid);
+
   const commandsController = new CommandsController(next);
-  const command = await commandsController.delete(command_id);
+  const command = await commandsController.delete(req.body.commands_ids);
   if (command) {
     return res.json({ success: true, body: command });
   }

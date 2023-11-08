@@ -79,7 +79,7 @@ CREATE TRIGGER delete_command_trigger
     BEFORE DELETE
     ON Commands
     FOR EACH ROW
-    EXECUTE PROCEDURE delete_users_command();
+    EXECUTE PROCEDURE delete_command();
 --
 CREATE OR REPLACE FUNCTION delete_unit()
     RETURNS TRIGGER

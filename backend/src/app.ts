@@ -17,6 +17,7 @@ import HttpError from "./Models/http-error";
 // Routes
 import commandsRouter from "./Routes/commandsRouter";
 import usersRouter from "./Routes/usersRouter";
+import unitsRouter from "./Routes/unitsRouter";
 // types
 import Request from "./Types/ExtendedRequest";
 // swagger related imports
@@ -42,9 +43,10 @@ app.use(morgan("tiny"));
 
 app.use("/commands", commandsRouter);
 app.use("/users", usersRouter);
+app.use("/units", unitsRouter);
 
 // swagger page
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
 
 // error handler
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {

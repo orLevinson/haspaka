@@ -58,7 +58,7 @@ router.patch(
 
 router.delete(
   "/:uid",
-  [param("uid").not().isEmpty(), param("uid").isNumeric()],
+  [param("uid").not().isEmpty(), param("uid").isString()],
   usersMiddleware.deleteUser
 );
 
