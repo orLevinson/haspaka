@@ -9,6 +9,7 @@ import axios from "axios";
 import { unit } from "../types/unit";
 import { command } from "../types/command";
 import { ColDef } from "ag-grid-community";
+import GenericGrid from "../components/GenericGrid";
 
 const Units = () => {
 
@@ -41,11 +42,6 @@ const Units = () => {
     }, [commandsQuery.data]);
 
     useEffect(() => {
-        
-    }, []);
-
-
-    useEffect(() => {
         setColumnDefs([
             { field: 'unit_id', headerName: 'מזהה', filter: true, editable: false, hide: true },
             { field: 'unit_name', headerName: 'שם האוגדה', filter: true },
@@ -61,23 +57,6 @@ const Units = () => {
             }
         ]);
     }, [commandMappings])
-
-    // DefaultColDef sets props common to all Columns
-    const defaultColDef = useMemo(() => ({
-        sortable: true,
-        flex: 1,
-        editable: true
-    }));
-
-    // Example of consuming Grid Event
-    const cellClickedListener = useCallback(event => {
-        setSelectedRows(gridRef.current!.api.getSelectedRows());
-    }, []);
-
-    // Example using Grid's API
-    const buttonListener = useCallback(e => {
-        gridRef.current.api.deselectAll();
-    }, []);
 
     const handleChange = e => {
         const copy = structuredClone(e.data);
@@ -107,34 +86,18 @@ const Units = () => {
         .catch(err => console.error(err));
 
     return (
-        <div className="flex flex-col justify-center gap-4">
-            <div className="flex items-center justify-between w-[80%] mx-auto">
-                <span className="flex gap-4">
-                    <button onClick={handleAdd} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
-                    {0 < selectedRows.length && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
-                </span>
-                <span>הגדרת אוגדה</span>
-            </div>
-
-            {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine mx-auto w-[80%] h-[70vh] shadow-lg">
-
-                <AgGridReact
-                    ref={gridRef} // Ref for accessing Grid's API
-                    enableRtl={true}
-                    rowData={rowData} // Row Data for Rows
-                    onCellValueChanged={handleChange}
-                    columnDefs={columnDefs} // Column Defs for Columns
-                    defaultColDef={defaultColDef} // Default Column Properties
-                    enableCellChangeFlash={true}
-                    animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-                    rowSelection='multiple' // Options - allows click selection of rows
-
-                    onCellClicked={cellClickedListener} // Optional - registering for Grid Event
-                />
-            </div>
-        </div>
-    );
+        <GenericGrid
+            title="הגדרת אוגדות"
+            handleAdd={handleAdd}
+            handleRemove={handleRemove}
+            handleChange={handleChange}
+            columnDefs={columnDefs}
+            rowData={rowData}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+            gridRef={gridRef}
+        />
+    )
 }
 
 export default Units;
