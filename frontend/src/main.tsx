@@ -11,12 +11,17 @@ import Commands from './pages/Commands.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import Logout from './pages/Logout.tsx';
+import Items from './pages/Items.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/items",
+        element: <Items />
+      },
       {
         path: "/units",
         element: <Units />

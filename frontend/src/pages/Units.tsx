@@ -48,7 +48,7 @@ const Units = () => {
     useEffect(() => {
         setColumnDefs([
             { field: 'unit_id', headerName: 'מזהה', filter: true, editable: false, hide: true },
-            { field: 'unit_name', headerName: 'שם הפריט', filter: true },
+            { field: 'unit_name', headerName: 'שם האוגדה', filter: true },
             {
                 field: 'command_id',
                 headerName: 'פיקוד',
@@ -85,7 +85,7 @@ const Units = () => {
     }
 
     const handleAdd = () => {
-        const newItem = { unit_name: 'פריט', command_id: Object.keys(commandMappings)[0] };
+        const newItem = { unit_name: 'אוגדה', command_id: Object.keys(commandMappings)[0] };
         addUnit(newItem);
     }
 
@@ -113,7 +113,7 @@ const Units = () => {
                     <button onClick={handleAdd} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
                     {0 < selectedRows.length && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
                 </span>
-                <span>הגדרת פריטים</span>
+                <span>הגדרת אוגדה</span>
             </div>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
