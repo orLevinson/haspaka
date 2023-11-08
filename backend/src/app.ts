@@ -7,7 +7,7 @@ import helmet from "helmet";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 // env support
 import dotenv from "dotenv";
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+dotenv.config({ path: `.${process.env.NODE_ENV}.env` });
 // configs
 import corsOptionsConfig from "./configs/cors";
 import rateLimiterConfig from "./configs/rateLimiter";
