@@ -17,7 +17,11 @@ const doc = {
         },
         {
             name: 'Units',
-            description: "All the divisions beneath the commands"
+            description: "All the divisions beneath the commands based routes"
+        },
+        {
+            name: 'Items',
+            description: "All the items based routes"
         },
     ],
     servers: [

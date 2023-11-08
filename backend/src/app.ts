@@ -6,7 +6,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 // env support
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 // configs
 import corsOptionsConfig from "./configs/cors";
 import rateLimiterConfig from "./configs/rateLimiter";
@@ -18,6 +19,7 @@ import HttpError from "./Models/http-error";
 import commandsRouter from "./Routes/commandsRouter";
 import usersRouter from "./Routes/usersRouter";
 import unitsRouter from "./Routes/unitsRouter";
+import itemsRouter from "./Routes/itemsRouter";
 // types
 import Request from "./Types/ExtendedRequest";
 // swagger related imports
@@ -44,6 +46,7 @@ app.use(morgan("tiny"));
 app.use("/commands", commandsRouter);
 app.use("/users", usersRouter);
 app.use("/units", unitsRouter);
+app.use("/items", itemsRouter);
 
 // swagger page
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
@@ -68,8 +71,14 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
 const validateDBSuccessful = validateDB();
 if (validateDBSuccessful) {
   app.listen(process.env.PORT ?? 5000, () => {
-    console.log(`The server is running on port ${process.env.PORT ?? 5000}`);
+    console.log(
+      `The server is running on port ${process.env.PORT ?? 5000} on ${
+        process.env.ENV
+      } environment`
+    );
   });
 } else {
   console.log("could not start the server, DB isn't working properly :(");
 }
+
+export default app;

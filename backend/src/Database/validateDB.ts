@@ -4,7 +4,7 @@ import pool from "./connectionToDB";
 
 const validateDB = () => {
   fs.readFile(
-    path.join(__dirname, "schemaDB.sql"),
+    path.join(process.cwd(), "shared", "schemaDB.sql"),
     "utf8",
     async (err: Error, data) => {
       if (err) {
