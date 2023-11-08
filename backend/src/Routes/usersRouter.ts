@@ -6,6 +6,12 @@ import { getAuth, onlyAdmins } from "../Middlewares/authMiddleware";
 
 const router = express.Router();
 
+// make the swagger autogen know what tag are we on
+router.use((_req, _res, next) => {
+  // #swagger.tags = ['Users']
+  next();
+});
+
 router.post(
   "/login",
   [

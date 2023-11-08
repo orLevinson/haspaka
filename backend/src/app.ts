@@ -19,6 +19,9 @@ import commandsRouter from "./Routes/commandsRouter";
 import usersRouter from "./Routes/usersRouter";
 // types
 import Request from "./Types/ExtendedRequest";
+// swagger related imports
+import swaggerUi from "swagger-ui-express";
+import swaggerOutput from "./swagger_output.json";
 
 const app: Express = express();
 
@@ -39,6 +42,9 @@ app.use(morgan("tiny"));
 
 app.use("/commands", commandsRouter);
 app.use("/users", usersRouter);
+
+// swagger page
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput));
 
 // error handler
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {

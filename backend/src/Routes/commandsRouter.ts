@@ -9,6 +9,11 @@ const router = express.Router();
 // from now on only for users with admin privilege
 router.use(getAuth);
 router.use(onlyAdmins);
+// make the swagger autogen know what tag are we on
+router.use((_req, _res, next) => {
+  // #swagger.tags = ['Commands']
+  next();
+});
 
 router.get("/", commandsMiddleware.getCommands);
 

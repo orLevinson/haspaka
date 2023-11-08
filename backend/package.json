@@ -3,6 +3,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r dotenv/config src/app.ts",
     "start": "node dist/app.js",
+    "swagger": "ts-node src/swagger.ts",
     "build": "tsc",
     "prepublish": "npm run build"
   },
@@ -19,6 +20,7 @@
     "nodemon": "^3.0.1",
     "pg": "^8.11.3",
     "rate-limiter-flexible": "^3.0.3",
+    "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.1",
     "tsoa": "^5.1.1"
@@ -29,7 +31,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.8.10",
-    "@types/swagger-ui-express": "^4.1.5",
+    "@types/swagger-ui-express": "^4.1.6",
     "concurrently": "^8.2.2",
     "typescript": "^5.2.2"
   },
