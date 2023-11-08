@@ -9,6 +9,9 @@ import Request from "../Types/ExtendedRequest";
 import { v4 as uuid } from "uuid";
 
 const getCommands = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Get all of the commands'
+  // #swagger.description = 'Gets all of the commands and outputs them in array - Admins only'
+
   const commandsController = new CommandsController(next);
   const commands = await commandsController.getAll();
   if (commands) {
@@ -17,6 +20,19 @@ const getCommands = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const addCommand = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Create new command'
+  // #swagger.description = 'Creates new command and outputs its data - Admins only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/addCommand"
+                    }  
+                }
+            }
+        } 
+    */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -43,6 +59,19 @@ const updateCommand = async (
   res: Response,
   next: NextFunction
 ) => {
+  // #swagger.summary = 'Create new command'
+  // #swagger.description = 'Creates new command and outputs its data - Admins only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/patchCommand"
+                    }  
+                }
+            }
+        } 
+    */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -64,6 +93,21 @@ const deleteCommand = async (
   res: Response,
   next: NextFunction
 ) => {
+  // #swagger.summary = 'Delete existing command'
+  // #swagger.description = 'Deletes existing commands and outputs their data,
+  // also triggers a TRIGGER in the SQL that nullifies any reference to
+  // the deleted commands in any other row of any other table - Admins only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/deleteCommand"
+                    }  
+                }
+            }
+        } 
+    */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(

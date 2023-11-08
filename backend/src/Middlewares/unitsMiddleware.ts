@@ -9,6 +9,8 @@ import Request from "../Types/ExtendedRequest";
 import { v4 as uuid } from "uuid";
 
 const getUnits = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Get all units'
+  // #swagger.description = 'Get array of all the units joined with their command's name - Admin only'
   const unitsController = new UnitsController(next);
   const units = await unitsController.getAll();
   if (units) {
@@ -17,6 +19,18 @@ const getUnits = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const addUnit = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Add unit'
+  // #swagger.description = 'Creates a unit - Admin only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/addUnit"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -45,6 +59,18 @@ const addUnit = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Update units's command'
+  // #swagger.description = 'Updates a unit's command - Admin Only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/patchUnit"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -63,6 +89,18 @@ const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const deleteUnits = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Delete unit'
+  // #swagger.description = 'Deletes a unit, triggers a TRIGGER on the DB that deletes any row in any table that references this unit - Admins Only'
+    /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/deleteUnits"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(

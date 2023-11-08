@@ -35,7 +35,8 @@
         "tags": [
           "Commands"
         ],
-        "description": "",
+        "summary": "Get all of the commands",
+        "description": "Gets all of the commands and outputs them in array - Admins only",
         "parameters": [
           {
             "name": "authorization",
@@ -61,7 +62,8 @@
         "tags": [
           "Commands"
         ],
-        "description": "",
+        "summary": "Create new command",
+        "description": "Creates new command and outputs its data - Admins only",
         "parameters": [
           {
             "name": "authorization",
@@ -83,15 +85,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "command_name": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/addCommand"
               }
             }
           }
@@ -101,7 +99,8 @@
         "tags": [
           "Commands"
         ],
-        "description": "",
+        "summary": "Delete existing command",
+        "description": "Deletes existing commands and outputs their data,",
         "parameters": [
           {
             "name": "authorization",
@@ -112,8 +111,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         },
         "security": [
@@ -123,15 +122,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "commands_ids": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/deleteCommand"
               }
             }
           }
@@ -143,7 +138,8 @@
         "tags": [
           "Commands"
         ],
-        "description": "",
+        "summary": "Create new command",
+        "description": "Creates new command and outputs its data - Admins only",
         "parameters": [
           {
             "name": "cid",
@@ -173,15 +169,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "command_name": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/patchCommand"
               }
             }
           }
@@ -193,25 +185,19 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "summary": "Login user",
+        "description": "Logins a user and returns a JWT token with 1W validity",
         "responses": {
           "200": {
             "description": "OK"
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/login"
               }
             }
           }
@@ -223,28 +209,19 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "summary": "Register user",
+        "description": "Creates new user without any permissions",
         "responses": {
           "200": {
             "description": "OK"
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  },
-                  "name": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/register"
               }
             }
           }
@@ -284,7 +261,8 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "summary": "Get all users",
+        "description": "Get all the users without passwords - Admins only",
         "parameters": [
           {
             "name": "authorization",
@@ -312,7 +290,8 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "summary": "Update user",
+        "description": "Updates a user command - Admin only",
         "parameters": [
           {
             "name": "uid",
@@ -342,15 +321,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "command_id": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/patchUser"
               }
             }
           }
@@ -360,7 +335,8 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "summary": "Delete user",
+        "description": "Delete a user based on user",
         "parameters": [
           {
             "name": "uid",
@@ -379,8 +355,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         },
         "security": [
@@ -396,7 +372,8 @@
         "tags": [
           "Units"
         ],
-        "description": "",
+        "summary": "Get all units",
+        "description": "Get array of all the units joined with their command",
         "parameters": [
           {
             "name": "authorization",
@@ -407,8 +384,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         },
         "security": [
@@ -416,13 +393,24 @@
             "bearerAuth": [],
             "apiKeyAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deleteUnits"
+              }
+            }
+          }
+        }
       },
       "post": {
         "tags": [
           "Units"
         ],
-        "description": "",
+        "summary": "Add unit",
+        "description": "Creates a unit - Admin only",
         "parameters": [
           {
             "name": "authorization",
@@ -444,18 +432,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "command_id": {
-                    "example": "any"
-                  },
-                  "unit_name": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/addUnit"
               }
             }
           }
@@ -465,7 +446,8 @@
         "tags": [
           "Units"
         ],
-        "description": "",
+        "summary": "Delete unit",
+        "description": "Deletes a unit, triggers a TRIGGER on the DB that deletes any row in any table that references this unit - Admins Only",
         "parameters": [
           {
             "name": "authorization",
@@ -487,15 +469,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "units_ids": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/deleteUnits"
               }
             }
           }
@@ -507,7 +485,8 @@
         "tags": [
           "Units"
         ],
-        "description": "",
+        "summary": "Update units",
+        "description": "Updates a unit",
         "parameters": [
           {
             "name": "uid",
@@ -537,18 +516,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "unit_name": {
-                    "example": "any"
-                  },
-                  "command_id": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/patchUnit"
               }
             }
           }
@@ -560,7 +532,8 @@
         "tags": [
           "Items"
         ],
-        "description": "",
+        "summary": "Get all items",
+        "description": "Get array of all the items - Admin only",
         "parameters": [
           {
             "name": "authorization",
@@ -586,7 +559,8 @@
         "tags": [
           "Items"
         ],
-        "description": "",
+        "summary": "Add item",
+        "description": "Creates an item - Admin only",
         "parameters": [
           {
             "name": "authorization",
@@ -608,18 +582,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "item_name": {
-                    "example": "any"
-                  },
-                  "item_type": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/addItem"
               }
             }
           }
@@ -629,7 +596,8 @@
         "tags": [
           "Items"
         ],
-        "description": "",
+        "summary": "Delete item",
+        "description": "Deletes an item, triggers a TRIGGER on the DB that deletes any row in any table that references this item - Admins Only",
         "parameters": [
           {
             "name": "authorization",
@@ -651,15 +619,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "items_ids": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/deleteItems"
               }
             }
           }
@@ -671,7 +635,8 @@
         "tags": [
           "Items"
         ],
-        "description": "",
+        "summary": "Update item",
+        "description": "Updates an item - Admin Only",
         "parameters": [
           {
             "name": "iid",
@@ -701,18 +666,11 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "item_name": {
-                    "example": "any"
-                  },
-                  "item_type": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/patchItem"
               }
             }
           }
@@ -725,6 +683,189 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "addCommand": {
+        "type": "object",
+        "properties": {
+          "command_name": {
+            "type": "string",
+            "example": "command name"
+          }
+        }
+      },
+      "patchCommand": {
+        "type": "object",
+        "properties": {
+          "command_name": {
+            "type": "string",
+            "example": "command name"
+          }
+        },
+        "required": [
+          "command_name"
+        ]
+      },
+      "deleteCommand": {
+        "type": "object",
+        "properties": {
+          "commands_ids": {
+            "type": "array",
+            "example": [
+              1,
+              2,
+              3
+            ],
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "commands_ids"
+        ]
+      },
+      "login": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "user"
+          },
+          "password": {
+            "type": "string",
+            "example": "pass"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "register": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "user"
+          },
+          "password": {
+            "type": "string",
+            "example": "pass"
+          },
+          "name": {
+            "type": "string",
+            "example": "Or"
+          }
+        },
+        "required": [
+          "username",
+          "password",
+          "name"
+        ]
+      },
+      "patchUser": {
+        "type": "object",
+        "properties": {
+          "command_id": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "command_id"
+        ]
+      },
+      "addUnit": {
+        "type": "object",
+        "properties": {
+          "unit_name": {
+            "type": "string",
+            "example": "unit name"
+          },
+          "command_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "patchUnit": {
+        "type": "object",
+        "properties": {
+          "unit_name": {
+            "type": "string",
+            "example": "unit name"
+          },
+          "command_id": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "deleteUnits": {
+        "type": "object",
+        "properties": {
+          "units_ids": {
+            "type": "array",
+            "example": [
+              1,
+              2,
+              3
+            ],
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "units_ids"
+        ]
+      },
+      "addItem": {
+        "type": "object",
+        "properties": {
+          "item_name": {
+            "type": "string",
+            "example": "item name"
+          },
+          "item_type": {
+            "type": "string",
+            "example": "חורף"
+          }
+        }
+      },
+      "patchItem": {
+        "type": "object",
+        "properties": {
+          "unit_name": {
+            "type": "string",
+            "example": "item name"
+          },
+          "item_type": {
+            "type": "string",
+            "example": "שהייה"
+          }
+        }
+      },
+      "deleteItems": {
+        "type": "object",
+        "properties": {
+          "items_ids": {
+            "type": "array",
+            "example": [
+              1,
+              2,
+              3
+            ],
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "items_ids"
+        ]
       }
     }
   }

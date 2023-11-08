@@ -9,6 +9,8 @@ import Request from "../Types/ExtendedRequest";
 import { v4 as uuid } from "uuid";
 
 const getItems = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Get all items'
+  // #swagger.description = 'Get array of all the items - Admin only'
   const itemsController = new ItemsController(next);
   const items = await itemsController.getAll();
   if (items) {
@@ -17,6 +19,18 @@ const getItems = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const addItem = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Add item'
+  // #swagger.description = 'Creates an item - Admin only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/addItem"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -45,6 +59,18 @@ const addItem = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateItem = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Update item'
+  // #swagger.description = 'Updates an item - Admin Only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/patchItem"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -63,6 +89,18 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const deleteItems = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Delete item'
+  // #swagger.description = 'Deletes an item, triggers a TRIGGER on the DB that deletes any row in any table that references this item - Admins Only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/deleteItems"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
