@@ -13,11 +13,12 @@ const validateDB = () => {
       }
       try {
         await pool.query("BEGIN");
-        data.split("--").forEach(async (sql_statement) => {
+        for (const sql_statement of data.split("--")) {
           await pool.query(sql_statement);
-        });
-        await pool.query("END");
+        }
+        await pool.query("COMMIT");
       } catch (err) {
+        await pool.query("ROLLBACK");
         console.error(
           "Error validating DB schema, sending commands to the server failed"
         );

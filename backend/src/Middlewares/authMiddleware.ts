@@ -37,8 +37,6 @@ const getAuth = async (req: Request, res: Response, next: NextFunction) => {
       userData = await usersController.getById(decodedToken.id);
     }
 
-    console.log(userData);
-
     if (!userData || !userData.command_id) {
       throw new Error("You are unauthorized to view this");
     }

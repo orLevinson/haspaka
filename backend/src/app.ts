@@ -22,6 +22,7 @@ import unitsRouter from "./Routes/unitsRouter";
 import itemsRouter from "./Routes/itemsRouter";
 // types
 import Request from "./Types/ExtendedRequest";
+import { Server } from "http";
 // swagger related imports
 import swaggerUi from "swagger-ui-express";
 import swaggerOutput from "./swagger_output.json";
@@ -68,9 +69,10 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+let server:Server;
 const validateDBSuccessful = validateDB();
 if (validateDBSuccessful) {
-  app.listen(process.env.PORT ?? 5000, () => {
+  server = app.listen(process.env.PORT ?? 5000, () => {
     console.log(
       `The server is running on port ${process.env.PORT ?? 5000} on ${
         process.env.ENV
@@ -81,4 +83,4 @@ if (validateDBSuccessful) {
   console.log("could not start the server, DB isn't working properly :(");
 }
 
-export default app;
+export default server;

@@ -1,6 +1,6 @@
 const rateLimiterConfig = {
-  points: 10, // maximum number of requests allowed
+  points: process.env.ENV == "testing" ? 1000 : 10, // maximum number of requests allowed
   duration: 1, // time frame in seconds
 };
 
-export default rateLimiterConfig
+export default rateLimiterConfig;

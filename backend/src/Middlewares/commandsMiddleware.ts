@@ -72,9 +72,9 @@ const deleteCommand = async (
   }
 
   const commandsController = new CommandsController(next);
-  const command = await commandsController.delete(req.body.commands_ids);
-  if (command) {
-    return res.json({ success: true, body: command });
+  const commands = await commandsController.delete(req.body.commands_ids);
+  if (commands) {
+    return res.json({ success: true, body: commands });
   }
 };
 
