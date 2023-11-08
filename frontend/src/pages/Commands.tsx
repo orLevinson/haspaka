@@ -58,7 +58,7 @@ const Commands = () => {
             </div>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine mx-auto" style={{ width: '50%', height: 500 }}>
+            <div className="ag-theme-alpine mx-auto w-[80%] h-[70vh] shadow-lg">
 
                 <AgGridReact
                     ref={gridRef} // Ref for accessing Grid's API
