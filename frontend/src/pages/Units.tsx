@@ -24,6 +24,7 @@ const Units = () => {
     const [rowData, setRowData] = useState<unit[]>([]); // Set rowData to Array of Objects, one Object per Row
     const [commandMappings, setCommandMappings] = useState<{ [key: number]: string }>({});
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
+    const [selectedRows, setSelectedRows] = useState<unit[]>([]);
 
     useEffect(() => {
         if (unitsQuery.data) setRowData(unitsQuery.data);
@@ -38,6 +39,10 @@ const Units = () => {
             setCommandMappings(c);
         }
     }, [commandsQuery.data]);
+
+    useEffect(() => {
+        
+    }, []);
 
 
     useEffect(() => {
@@ -66,7 +71,7 @@ const Units = () => {
 
     // Example of consuming Grid Event
     const cellClickedListener = useCallback(event => {
-        console.log('cellClicked', event);
+        setSelectedRows(gridRef.current!.api.getSelectedRows());
     }, []);
 
     // Example using Grid's API
@@ -84,18 +89,30 @@ const Units = () => {
         addUnit(newItem);
     }
 
+    const handleRemove = () => {
+        const ids = selectedRows.map(unit => unit.unit_id);
+        removeUnits(ids.toString());
+    }
+
     const updateUnit = unit => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/updateUnit", unit)
         .then(res => unitsQuery.refetch())
-        .catch(err => console.error(unit));
+        .catch(err => console.error(err));
 
     const addUnit = unit => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/addUnit", unit)
         .then(res => unitsQuery.refetch())
-        .catch(err => console.error(unit));
+        .catch(err => console.error(err));
+
+    const removeUnits = (ids: string) => axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/removeUnits", { ids })
+        .then(res => unitsQuery.refetch())
+        .catch(err => console.error(err));
 
     return (
         <div className="flex flex-col justify-center gap-4">
             <div className="flex items-center justify-between w-[80%] mx-auto">
-                <button onClick={handleAdd} className="bg-slate-200 py-2 px-4 rounded-md shadow">הוסף פריט</button>
+                <span className="flex gap-4">
+                    <button onClick={handleAdd} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
+                    {0 < selectedRows.length && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
+                </span>
                 <span>הגדרת פריטים</span>
             </div>
 

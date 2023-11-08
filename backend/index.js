@@ -45,6 +45,15 @@ app.post('/addUnit', async (req, res, next) => {
   res.status(200).json(unitId);
 });
 
+app.post('/removeUnits', async (req, res, next) => {
+  if (!req.body.ids) {
+    res.status(400).json("not selected rows");
+    return;
+  }
+  const result = await pool.query(`DELETE FROM units WHERE unit_id IN (${req.body.ids})`);
+  res.status(200).json(result);
+});
+
 app.listen(port, () => {
   console.log(`app started at port ${port}`);
 });
