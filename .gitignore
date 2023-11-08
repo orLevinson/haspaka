@@ -3,6 +3,7 @@
 .env.development
 .env.production
 .env.testing
+backend/*.env
 
 
 # testing and builds
