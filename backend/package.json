@@ -1,17 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-=======
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r dotenv/config src/app.ts",
@@ -21,15 +8,10 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
->>>>>>> origin/or
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-<<<<<<< HEAD
-    "pg": "^8.11.3"
-  }
-=======
     "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -52,5 +34,4 @@
     "typescript": "^5.2.2"
   },
   "main": "dist/app.js"
->>>>>>> origin/or
 }
