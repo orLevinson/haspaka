@@ -146,6 +146,12 @@ $$
             WHERE item_id=OLD.item_id;
         DELETE FROM Future_Supplied
             WHERE item_id=OLD.item_id;
+        DELETE FROM Inventory_Tracking
+            WHERE item_id=OLD.item_id;
+        DELETE FROM Marhas_Inventory
+            WHERE item_id=OLD.item_id;
+        DELETE FROM Given_So_Far
+            WHERE item_id=OLD.item_id;
         RETURN OLD;
     END
 $$;
