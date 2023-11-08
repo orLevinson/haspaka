@@ -160,13 +160,13 @@ class DefaultController<T> {
         `DELETE FROM ${this.table} WHERE ${this.id_column}=$1 RETURNING *`,
         [id]
       );
-
       if (rows.length == 0) {
         throw new Error();
       }
       data = rows[0];
       return data;
     } catch (error) {
+      console.log(error);
       return this.errCallback(
         new HttpError("An error occured while deleting data", 500)
       );
