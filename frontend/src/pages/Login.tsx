@@ -17,7 +17,7 @@ const Login = () => {
 
   useEffect(() => {
     if (command_name) {
-      navigate("/items");
+      navigate("/neededInventory");
     }
   },[command_name]);
 
