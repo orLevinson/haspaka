@@ -15,11 +15,11 @@ const Login = () => {
     const { userData, saveUserData } = React.useContext(UserCtx);
     const { command_name } = userData;
 
-    useEffect(() => {
-        if (command_name) {
-            navigate("/items");
-        }
-    }, [command_name]);
+  useEffect(() => {
+    if (command_name) {
+      navigate("/neededInventory");
+    }
+  },[command_name]);
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;

@@ -9,7 +9,6 @@ import Units from "./pages/Units";
 import Commands from "./pages/Commands";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Logout from "./pages/Logout";
 import Items from "./pages/Items";
 import IdealInventory from "./pages/IdealInventory";
 import FutureSupplied from "./pages/FutureSupplied";
@@ -21,53 +20,64 @@ import { UserDataCtxProvider } from "./shared/userCtx";
 
 const router = createBrowserRouter([
   {
+    id:"דף הבית",
     path: "/",
     element: <App />,
     children: [
       {
+        id:"פריטים",
         path: "/items",
         element: <Items />,
       },
       {
+        id:'מלאי מרה"ס',
         path: "/marhasInventory",
         element: <MarhasInventory />,
       },
       {
+        id:"נופק עד כה",
         path: "/givenSoFar",
         element: <GivenSoFar />,
       },
       {
+        id:"תקן מודל",
         path: "/idealInventory",
         element: <IdealInventory />,
       },
       {
+        id:"פערי יחידות",
         path: "/neededInventory",
         element: <NeededInventory />,
       },
       {
+        id:"אושר לניפוק",
         path: "/futureSupplied",
         element: <FutureSupplied />,
       },
       {
+        id:"אוגדות",
         path: "/units",
         element: <Units />,
       },
       {
+        id:"פיקודים",
         path: "/commands",
         element: <Commands />,
       },
       {
+        id:"התחברות",
         path: "/login",
         element: <Login />,
       },
       {
+        id:"הרשמה",
         path: "/register",
         element: <Register />,
       },
-      {
-        path: "/logout",
-        element: <Logout />,
-      },
+      // {
+      //   path: "/logout",
+      //   element: <Logout />,
+      // },
     ],
   },
 ]);
