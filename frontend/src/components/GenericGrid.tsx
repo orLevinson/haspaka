@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { GenericGridProps } from "../types/GenericGridProps";
 import axios from "axios";
