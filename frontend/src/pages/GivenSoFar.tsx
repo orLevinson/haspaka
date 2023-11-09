@@ -1,25 +1,19 @@
-import { ColDef } from "ag-grid-community";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import GenericGrid from "../components/GenericGrid";
 
-const TableWithUnitFiltering = (props) => {
+const GivenSoFar = () => {
 
     const itemsQuery = useQuery<item[]>('items', () =>
         fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/items").then(res => res.json())
     );
 
-    const unitsQuery = useQuery<command[]>('units', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/units").then(res => res.json())
-    );
-
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
     const [itemMappings, setItemMappings] = useState<{ [key: number]: string }>({});
-    const [unitMappings, setUnitMappings] = useState<{ [key: number]: string }>({});
-    const [selectedUnit, setSelectedUnit] = useState({});
 
     useEffect(() => {
         setColumnDefs([
+            { field: 'date', headerName: 'תאריך', filter: true, editable: false, },
             {
                 field: 'item_id',
                 headerName: 'פריט',
@@ -31,20 +25,9 @@ const TableWithUnitFiltering = (props) => {
                 } as ISelectCellEditorParams,
                 refData: itemMappings,
             },
-            {
-                field: 'unit_id',
-                headerName: 'אוגדה',
-                cellEditor: 'agSelectCellEditor',
-                editable: false,
-                filter: 'agSetColumnFilter',
-                cellEditorParams: {
-                    values: Object.keys(unitMappings)
-                } as ISelectCellEditorParams,
-                refData: unitMappings,
-            },
             { field: 'value', headerName: 'כמות', filter: true },
         ]);
-    }, [itemMappings, unitMappings]);
+    }, [itemMappings]);
 
     useEffect(() => {
         if (itemsQuery.data) {
@@ -56,29 +39,15 @@ const TableWithUnitFiltering = (props) => {
         }
     }, [itemsQuery.data]);
 
-    useEffect(() => {
-        if (unitsQuery.data) {
-            const c = {};
-            unitsQuery.data.forEach(unit => {
-                c[unit.unit_id] = unit.unit_name;
-            });
-            setUnitMappings(c);
-        }
-    }, [unitsQuery.data]);
-
-
-    return (
+    return ( 
         <div className="flex flex-col items-center w-full">
             <GenericGrid
-                type={props.type}
-                title={props.title}
+                type="givenSoFar"
+                title="נופק עד כה"
                 columnDefs={columnDefs}
-                isReadonly={true}
-                selectedUnit={selectedUnit}
-                setSelectedUnit={setSelectedUnit}
             />
         </div>
-    );
+     );
 }
 
-export default TableWithUnitFiltering;
+export default GivenSoFar;

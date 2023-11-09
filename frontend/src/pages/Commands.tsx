@@ -8,7 +8,7 @@ import GenericGrid from "../components/GenericGrid";
 const Commands = () => {
 
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([
-        { field: 'command_id', headerName: 'מזהה', filter: true, editable: false, hide: true },
+        { field: 'command_id', headerName: 'מזהה', hide: true },
         { field: 'command_name', headerName: 'שם הפיקוד', filter: true },
     ]);
 

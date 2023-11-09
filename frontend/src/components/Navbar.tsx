@@ -12,9 +12,11 @@ const Navbar = () => {
                     <NavLink to="/units" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">אוגדות</NavLink>
                     <NavLink to="/items" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">פריטים</NavLink>
                     <NavLink to="/idealInventory" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">תקן מודל</NavLink>
+                    <NavLink to="/neededInventory" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">פערים</NavLink>
                     <NavLink to="/futureSupplied" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">אושר לניפוק</NavLink>
-                    <NavLink to="/units" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">כמות שנופקה עד כה</NavLink>
-                    <NavLink to="/units" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">מלאי מרה"ס</NavLink>
+                    <NavLink to="/givenSoFar" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">נופק עד כה</NavLink>
+                    <NavLink to="/marhasInventory" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">מלאי מרה"ס</NavLink>
+                    <NavLink to="/units" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100  dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white">מעקב פערים</NavLink>
                 </div>
             </div>
         </nav>

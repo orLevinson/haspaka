@@ -9,7 +9,7 @@ function App() {
   const queryClient = new QueryClient();
 
   return (
-    <div className='bg-gray-50 w-full h-full flex flex-col'>
+    <div className='bg-gray-50 w-full h-full flex flex-col font-assistant'>
       <QueryClientProvider client={queryClient}>
         <Navbar />
         <Outlet />

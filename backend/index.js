@@ -51,6 +51,41 @@ app.get("/futureSupplied", async (req, res, next) => {
   res.status(200).json(rows);
 });
 
+app.get("/givenSoFar", async (req, res, next) => {
+  const { rows } = await pool.query('SELECT * FROM Given_So_Far');
+  res.status(200).json(rows);
+});
+
+app.get("/neededInventory", async (req, res, next) => {
+  const { rows } = await pool.query('SELECT * FROM Needed_Inventory');
+  res.status(200).json(rows);
+});
+
+app.get("/marhasInventory", async (req, res, next) => {
+  const { rows } = await pool.query('SELECT * FROM Marhas_Inventory');
+  res.status(200).json(rows);
+});
+
+app.patch('/neededInventory', async (req, res, next) => {
+  console.log(req.body);
+  const value = await pool.query(`
+    UPDATE Needed_Inventory SET value=${req.body.value}
+      WHERE date=$1 AND item_id=${req.body.item_id}
+      RETURNING value
+  `, [req.body.date]);
+  res.status(200).json(value);
+});
+
+app.patch('/givenSoFar', async (req, res, next) => {
+  console.log(req.body);
+  const value = await pool.query(`
+    UPDATE given_so_far SET value=${req.body.value}
+      WHERE date=$1 AND item_id=${req.body.item_id}
+      RETURNING value
+  `, [req.body.date]);
+  res.status(200).json(value);
+});
+
 app.patch('/futureSupplied', async (req, res, next) => {
   const value = await pool.query(`
     UPDATE Future_Supplied SET value=${req.body.value}

@@ -14,6 +14,9 @@ import Logout from './pages/Logout.tsx';
 import Items from './pages/Items.tsx';
 import IdealInventory from './pages/IdealInventory.tsx';
 import FutureSupplied from './pages/FutureSupplied.tsx';
+import GivenSoFar from './pages/GivenSoFar.tsx';
+import NeededInventory from './pages/NeededInventory.tsx';
+import MarhasInventory from './pages/MarhasInventory.tsx';
 
 const router = createBrowserRouter([
   {
@@ -25,8 +28,20 @@ const router = createBrowserRouter([
         element: <Items />
       },
       {
+        path: "/marhasInventory",
+        element: <MarhasInventory />
+      },
+      {
+        path: "/givenSoFar",
+        element: <GivenSoFar />
+      },
+      {
         path: "/idealInventory",
         element: <IdealInventory />
+      },
+      {
+        path: "/neededInventory",
+        element: <NeededInventory />
       },
       {
         path: "/futureSupplied",

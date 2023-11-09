@@ -10,12 +10,14 @@ const GenericGrid = (props: GenericGridProps) => {
     const gridRef = useRef();
     const url = `${import.meta.env.VITE_REACT_APP_BASE_URL}/${props.type}`;
     const [rowData, setRowData] = useState([]);
-    const [selectedRows, setSelectedRows] = useState<unit[]>([]);
+    const [selectedRows, setSelectedRows] = useState([]);
 
     const query = useQuery(props.type, () => fetch(url).then(res => res.json()));
 
     useEffect(() => {
-        if (query.data) setRowData(query.data);
+        if (query.data) {
+            setRowData(query.data.map(item => item.date ? { ...item, date: new Date(item.date) } : item));
+        }
     }, [query.data]);
 
     useEffect(() => {
@@ -36,8 +38,6 @@ const GenericGrid = (props: GenericGridProps) => {
 
     const handleChange = e => {
         const copy = structuredClone(e.data);
-        console.log(e.data);
-
         update(copy);
     }
 
@@ -69,7 +69,7 @@ const GenericGrid = (props: GenericGridProps) => {
                     {!props.isReadonly && <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>}
                     {0 < selectedRows.length && !props.isReadonly && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
                 </div>
-                <span className="py-2">{props.title}</span>
+                <span className="py-2 text-xl">{props.title}</span>
             </div>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}

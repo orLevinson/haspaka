@@ -13,3 +13,8 @@ body {
 #root {
   height: 100%;
 }
+
+div.ag-theme-alpine {
+  font-family: Assistant;
+  font-size: 16px;
+}
