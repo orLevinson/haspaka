@@ -1,22 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import Units from './pages/Units.tsx';
-import Commands from './pages/Commands.tsx';
-import Login from './pages/Login.tsx';
-import Register from './pages/Register.tsx';
-import Logout from './pages/Logout.tsx';
-import Items from './pages/Items.tsx';
-import IdealInventory from './pages/IdealInventory.tsx';
-import FutureSupplied from './pages/FutureSupplied.tsx';
-import GivenSoFar from './pages/GivenSoFar.tsx';
-import NeededInventory from './pages/NeededInventory.tsx';
-import MarhasInventory from './pages/MarhasInventory.tsx';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Units from "./pages/Units.tsx";
+import Commands from "./pages/Commands.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import Logout from "./pages/Logout.tsx";
+import Items from "./pages/Items.tsx";
+import IdealInventory from "./pages/IdealInventory.tsx";
+import FutureSupplied from "./pages/FutureSupplied.tsx";
+import GivenSoFar from "./pages/GivenSoFar.tsx";
+import NeededInventory from "./pages/NeededInventory.tsx";
+import MarhasInventory from "./pages/MarhasInventory.tsx";
+import { UserDataCtxProvider } from "./shared/userCtx";
+
 
 const router = createBrowserRouter([
   {
@@ -25,31 +24,31 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/items",
-        element: <Items />
+        element: <Items />,
       },
       {
         path: "/marhasInventory",
-        element: <MarhasInventory />
+        element: <MarhasInventory />,
       },
       {
         path: "/givenSoFar",
-        element: <GivenSoFar />
+        element: <GivenSoFar />,
       },
       {
         path: "/idealInventory",
-        element: <IdealInventory />
+        element: <IdealInventory />,
       },
       {
         path: "/neededInventory",
-        element: <NeededInventory />
+        element: <NeededInventory />,
       },
       {
         path: "/futureSupplied",
-        element: <FutureSupplied />
+        element: <FutureSupplied />,
       },
       {
         path: "/units",
-        element: <Units />
+        element: <Units />,
       },
       {
         path: "/commands",
@@ -67,12 +66,14 @@ const router = createBrowserRouter([
         path: "/logout",
         element: <Logout />,
       },
-    ]
+    ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+    <UserDataCtxProvider>
+      <RouterProvider router={router} />
+    </UserDataCtxProvider>
+  </React.StrictMode>
+);
