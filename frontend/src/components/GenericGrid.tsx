@@ -53,8 +53,10 @@ const GenericGrid = (props: GenericGridProps) => {
 
     const handleRemove = () => {
         const ids: string[] = selectedRows.map(item => item[`${props.type.slice(0, -1)}_id`]);
-        // remove(ids);
-        remove(ids.toString());
+        const itemAttribute = `${props.type}_ids`;
+        console.log({[itemAttribute]: ids});
+        
+        remove({[itemAttribute]: ids});
     }
 
     const add = () =>
@@ -70,8 +72,12 @@ const GenericGrid = (props: GenericGridProps) => {
     }
 
     const remove = (ids: string) =>
-        axios.delete(url, { data: { ids } }, { headers: { Authorization: `Bearer ${userData.token}` } })
-            .then(_res => query.refetch())
+        axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${userData.token}`
+            },
+            data: ids
+        }).then(_res => query.refetch())
             .catch(err => console.error(err));
 
     return (
