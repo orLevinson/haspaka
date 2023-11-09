@@ -46,6 +46,20 @@ app.patch('/idealInventory', async (req, res, next) => {
   res.status(200).json(value);
 });
 
+app.get("/futureSupplied", async (req, res, next) => {
+  const { rows } = await pool.query('SELECT * FROM Future_Supplied');
+  res.status(200).json(rows);
+});
+
+app.patch('/futureSupplied', async (req, res, next) => {
+  const value = await pool.query(`
+    UPDATE Future_Supplied SET value=${req.body.value}
+      WHERE unit_id=${req.body.unit_id} AND item_id=${req.body.item_id}
+      RETURNING value
+  `);
+  res.status(200).json(value);
+});
+
 app.patch('/units', async (req, res, next) => {
   const unitId = await pool.query(`
     UPDATE units SET unit_name='${req.body.unit_name}', command_id=${req.body.command_id} 

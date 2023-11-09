@@ -13,6 +13,7 @@ import Register from './pages/Register.tsx';
 import Logout from './pages/Logout.tsx';
 import Items from './pages/Items.tsx';
 import IdealInventory from './pages/IdealInventory.tsx';
+import FutureSupplied from './pages/FutureSupplied.tsx';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/idealInventory",
         element: <IdealInventory />
+      },
+      {
+        path: "/futureSupplied",
+        element: <FutureSupplied />
       },
       {
         path: "/units",
