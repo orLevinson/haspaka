@@ -57,17 +57,22 @@ const GenericGrid = (props: GenericGridProps) => {
         remove(ids.toString());
     }
 
-    const add = () => axios.post(url)
-        .then(_res => query.refetch())
-        .catch(err => console.error(err));
+    const add = () =>
+        axios.post(url, undefined, { headers: { Authorization: `Bearer ${userData.token}` } })
+            .then(_res => query.refetch())
+            .catch(err => console.error(err));
 
-    const update = (item: any) => axios.patch(url, item)
-        .then(_res => query.refetch())
-        .catch(err => console.error(err));
+    const update = (item: any) => {
+        const itemAttribute = `${props.type.slice(0, -1)}_id`;
+        axios.patch(`${url}/${item[itemAttribute]}`, item, { headers: { Authorization: `Bearer ${userData.token}` } })
+            .then(_res => query.refetch())
+            .catch(err => console.error(err));
+    }
 
-    const remove = (ids: string) => axios.delete(url, { data: { ids } })
-        .then(_res => query.refetch())
-        .catch(err => console.error(err));
+    const remove = (ids: string) =>
+        axios.delete(url, { data: { ids } }, { headers: { Authorization: `Bearer ${userData.token}` } })
+            .then(_res => query.refetch())
+            .catch(err => console.error(err));
 
     return (
         <div className="flex flex-col justify-center gap-4 w-full">
