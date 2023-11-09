@@ -16,16 +16,16 @@ import validateDB from "./Database/validateDB";
 // Error Handling Model
 import HttpError from "./Models/http-error";
 // Routes
-import commandsRouter from "./Routes/commandsRouter";
-import usersRouter from "./Routes/usersRouter";
-import unitsRouter from "./Routes/unitsRouter";
-import itemsRouter from "./Routes/itemsRouter";
-import idealInventoryRouter from "./Routes/idealInventoryRouter";
-import neededInventoryRouter from "./Routes/neededInventoryRouter";
-import futureSuppliedRouter from "./Routes/futureSuppliedRouter";
-import inventoryTrackingRouter from "./Routes/inventoryTrackingRouter";
-import marhasInventoryRouter from "./Routes/marhasInventoryRouter";
-import givenSoFarRouter from "./Routes/givenSoFarRouter";
+import commandsRouter from "./Routes/commands.routes";
+import usersRouter from "./Routes/users.routes";
+import unitsRouter from "./Routes/units.routes";
+import itemsRouter from "./Routes/items.routes";
+import idealInventoryRouter from "./Routes/idealInventory.routes";
+import neededInventoryRouter from "./Routes/neededInventory.routes";
+import futureSuppliedRouter from "./Routes/futureSupplied.routes";
+import inventoryTrackingRouter from "./Routes/inventoryTracking.routes";
+import marhasInventoryRouter from "./Routes/marhasInventory.routes";
+import givenSoFarRouter from "./Routes/givenSoFar.routes";
 // types
 import Request from "./Types/ExtendedRequest";
 import { Server } from "http";

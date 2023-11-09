@@ -4,7 +4,7 @@
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config src/app.ts",
     "swagger": "ts-node src/swagger.ts",
     "setup-dev": "npm i & npx ts-jest config:init & ts-node src/swagger.ts",
-    "publish": "npm i & cross-env NODE_ENV=production tsc & cross-env NODE_ENV=production node dist/app.js"
+    "publish": "npm i & cross-env NODE_ENV=production tsc & cross-env NODE_ENV=production node dist/src/app.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
