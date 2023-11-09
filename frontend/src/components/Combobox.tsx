@@ -36,7 +36,7 @@ const Combobox = (props: ComboboxProps) => {
             <HeadlessUICombobox.Options className='bg-white shadow mt-4 rounded-lg max-h-64 overflow-y-auto'>
                 {filteredUnits.map((unit) => (
                     <HeadlessUICombobox.Option key={unit.unit_id} value={unit} as={Fragment}>
-                        <li className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white '>
+                        <li className='block px-4 py-2 hover:bg-gray-100'>
                             {unit.unit_name}
                         </li>
                     </HeadlessUICombobox.Option>
