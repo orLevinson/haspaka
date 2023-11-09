@@ -55,7 +55,6 @@ class IdealInventoryController extends DefaultController<IdealInventory> {
       );
 
       if (rows.length == 0) {
-        console.log("didnt update anything");
         throw new Error();
       }
 

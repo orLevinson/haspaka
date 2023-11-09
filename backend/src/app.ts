@@ -16,10 +16,16 @@ import validateDB from "./Database/validateDB";
 // Error Handling Model
 import HttpError from "./Models/http-error";
 // Routes
-import commandsRouter from "./Routes/commandsRouter";
-import usersRouter from "./Routes/usersRouter";
-import unitsRouter from "./Routes/unitsRouter";
-import itemsRouter from "./Routes/itemsRouter";
+import commandsRouter from "./Routes/commands.routes";
+import usersRouter from "./Routes/users.routes";
+import unitsRouter from "./Routes/units.routes";
+import itemsRouter from "./Routes/items.routes";
+import idealInventoryRouter from "./Routes/idealInventory.routes";
+import neededInventoryRouter from "./Routes/neededInventory.routes";
+import futureSuppliedRouter from "./Routes/futureSupplied.routes";
+import inventoryTrackingRouter from "./Routes/inventoryTracking.routes";
+import marhasInventoryRouter from "./Routes/marhasInventory.routes";
+import givenSoFarRouter from "./Routes/givenSoFar.routes";
 // types
 import Request from "./Types/ExtendedRequest";
 import { Server } from "http";
@@ -48,6 +54,12 @@ app.use("/commands", commandsRouter);
 app.use("/users", usersRouter);
 app.use("/units", unitsRouter);
 app.use("/items", itemsRouter);
+app.use("/idealInventory", idealInventoryRouter);
+app.use("/neededInventory", neededInventoryRouter);
+app.use("/futureSupplied", futureSuppliedRouter);
+app.use("/inventoryTracking", inventoryTrackingRouter);
+app.use("/marhasInventory", marhasInventoryRouter);
+app.use("/givenSoFar", givenSoFarRouter);
 
 // swagger page
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
@@ -69,7 +81,7 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-let server:Server;
+let server: Server;
 const validateDBSuccessful = validateDB();
 if (validateDBSuccessful) {
   server = app.listen(process.env.PORT ?? 5000, () => {

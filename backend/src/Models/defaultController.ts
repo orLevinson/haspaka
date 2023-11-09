@@ -26,15 +26,17 @@ class DefaultController<T> {
   }
 
   CreateJoinedQuery(query: string) {
-    let current_query = query;
+    let SELECTS = "";
+    let JOINS = "";
     Object.entries(this.joins).forEach(([table, join_key], index) => {
-      const layerName = `layer${index}`;
-      current_query = `WITH ${layerName} AS (${current_query})
-        SELECT ${layerName}.*,${table}.* FROM ${layerName}
-        LEFT JOIN ${table} 
-        ON ${layerName}.${join_key}=${table}.${join_key}`;
+      SELECTS += `,${table}.*`;
+      JOINS += ` LEFT JOIN ${table} 
+        ON init_query.${join_key}=${table}.${join_key}`;
     });
-    return current_query;
+    return `WITH init_query AS (${query})
+              SELECT init_query.*${SELECTS} 
+              FROM init_query ${JOINS}
+              `;
   }
 
   async getAll() {
@@ -66,7 +68,8 @@ class DefaultController<T> {
         return this.errCallback(
           new HttpError(
             "There was no instances in database with the given id",
-            204
+            204,
+            true
           )
         );
       }

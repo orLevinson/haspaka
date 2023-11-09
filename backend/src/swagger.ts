@@ -25,6 +25,35 @@ const doc = {
       name: "Items",
       description: "All the items based routes",
     },
+    {
+      name: "Ideal Inventory",
+      description: "All the Ideal Inventory (teken model) based routes",
+    },
+    {
+      name: "Needed Inventory",
+      description:
+        "All the Needed Inventory (items that a unit needs) based routes",
+    },
+    {
+      name: "Future Supplied",
+      description:
+        "All the Future Supplied (items that a unit will get in the future) based routes",
+    },
+    {
+      name:"Inventory Tracking",
+      description:
+        "All the Inventory tracking (of needed items) records based routes",
+    },
+    {
+      name:"Marhas Inventory",
+      description:
+        "All the Marhas inventory records based routes",
+    },
+    {
+      name:"Given So Far",
+      description:
+      "All the Given so far(items that were given from the marhas to the field units) records based routes",
+    }
   ],
   servers: [
     {
@@ -86,6 +115,21 @@ const doc = {
       },
       deleteItems: {
         $items_ids: [1, 2, 3],
+      },
+      // ideal_inventory, needed_inventory and future_supplied schemas
+      updateValue: {
+        $item_id: 1,
+        $unit_id: 1,
+        $value: 123,
+      },
+      // inventory_tracking, marhas_inventory and given_so_far schemas
+      updateValueRecord: {
+        $item_id: 1,
+        $date: "01-01-1999",
+        $value: 123,
+      },
+      deleteRecord: {
+        $date: "01-01-1999",
       },
     },
   },
