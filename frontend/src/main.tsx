@@ -1,19 +1,21 @@
+// @ts-ignore
 import React from "react";
+// @ts-ignore
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Units from "./pages/Units.tsx";
-import Commands from "./pages/Commands.tsx";
-import Login from "./pages/Login.tsx";
-import Register from "./pages/Register.tsx";
-import Logout from "./pages/Logout.tsx";
-import Items from "./pages/Items.tsx";
-import IdealInventory from "./pages/IdealInventory.tsx";
-import FutureSupplied from "./pages/FutureSupplied.tsx";
-import GivenSoFar from "./pages/GivenSoFar.tsx";
-import NeededInventory from "./pages/NeededInventory.tsx";
-import MarhasInventory from "./pages/MarhasInventory.tsx";
+import Units from "./pages/Units";
+import Commands from "./pages/Commands";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Logout from "./pages/Logout";
+import Items from "./pages/Items";
+import IdealInventory from "./pages/IdealInventory";
+import FutureSupplied from "./pages/FutureSupplied";
+import GivenSoFar from "./pages/GivenSoFar";
+import NeededInventory from "./pages/NeededInventory";
+import MarhasInventory from "./pages/MarhasInventory";
 import { UserDataCtxProvider } from "./shared/userCtx";
 
 
