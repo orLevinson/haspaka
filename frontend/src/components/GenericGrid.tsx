@@ -23,9 +23,9 @@ const GenericGrid = (props: GenericGridProps) => {
     );
 
     useEffect(() => {
-        console.log(query.data);
-
         if (query.data) {
+            console.log(query.data);
+
             setRowData(query.data.map((item: { date: string | Date; }) => item.date ? { ...item, date: new Date(item.date) } : item));
         }
     }, [query.data]);
@@ -54,9 +54,7 @@ const GenericGrid = (props: GenericGridProps) => {
     const handleRemove = () => {
         const ids: string[] = selectedRows.map(item => item[`${props.type.slice(0, -1)}_id`]);
         const itemAttribute = `${props.type}_ids`;
-        console.log({[itemAttribute]: ids});
-        
-        remove({[itemAttribute]: ids});
+        remove({ [itemAttribute]: ids });
     }
 
     const add = () =>
@@ -66,7 +64,8 @@ const GenericGrid = (props: GenericGridProps) => {
 
     const update = (item: any) => {
         const itemAttribute = `${props.type.slice(0, -1)}_id`;
-        axios.patch(`${url}/${item[itemAttribute]}`, item, { headers: { Authorization: `Bearer ${userData.token}` } })
+        const urlToPatch = props.isReadonly ? url : `${url}/${item[itemAttribute]}`;
+        axios.patch(urlToPatch, item, { headers: { Authorization: `Bearer ${userData.token}` } })
             .then(_res => query.refetch())
             .catch(err => console.error(err));
     }

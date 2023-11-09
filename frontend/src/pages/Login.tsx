@@ -5,39 +5,38 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserCtx } from "../shared/userCtx";
 
 const Login = () => {
-  // localStorage.setItem('jwt', 'abcde');
-  // window.dispatchEvent(new Event('storage'));
-  // return <Navigate to='/units' />
+    // localStorage.setItem('jwt', 'abcde');
+    // window.dispatchEvent(new Event('storage'));
+    // return <Navigate to='/units' />
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
-  const { userData, saveUserData } = React.useContext(UserCtx);
-  const { command_name } = userData;
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const navigate = useNavigate();
+    const { userData, saveUserData } = React.useContext(UserCtx);
+    const { command_name } = userData;
 
-  useEffect(() => {
-    if (command_name) {
-      navigate("/items");
-    }
-  },[command_name]);
+    useEffect(() => {
+        if (command_name) {
+            navigate("/items");
+        }
+    }, [command_name]);
 
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setUsername(value);
-  };
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setUsername(value);
+    };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    axios
-      .post(import.meta.env.VITE_REACT_APP_BASE_URL + "/users/login", {
-        username,
-        password,
-      })
-      .then((res) => {
-        saveUserData(res.data.body);
-      })
-      .catch((err) => console.error(err));
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        axios.post(import.meta.env.VITE_REACT_APP_BASE_URL + "/users/login", {
+            username,
+            password,
+        })
+            .then((res) => {
+                saveUserData(res.data.body);
+            })
+            .catch((err) => console.error(err));
+    };
 
     return (
         <section className="bg-gray-50 h-full" dir="rtl">
