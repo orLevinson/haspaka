@@ -1,4 +1,3 @@
-import Navbar from "./components/Navbar";
 import { Outlet } from "react-router";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SidebarWithRoutes from "./components/SidebarWithRoutes";

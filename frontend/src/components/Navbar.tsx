@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import Auth from "./Auth";
 
 const Navbar = () => {
