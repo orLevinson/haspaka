@@ -3,8 +3,10 @@ import { useQuery } from "react-query";
 import GenericGrid from "../components/GenericGrid";
 import { Combobox as HeadlessUICombobox } from '@headlessui/react'
 import { unit } from "../types/unit";
+import { XMarkIcon } from '@heroicons/react/24/solid'
+import { ComboboxProps } from "../types/ComboboxProps";
 
-const Combobox = props => {
+const Combobox = (props: ComboboxProps) => {
 
     const unitsQuery = useQuery<unit[]>('units', () =>
         fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/units").then(res => res.json())
@@ -22,10 +24,16 @@ const Combobox = props => {
         setFilteredUnits(units.filter(unit => unit.unit_name.includes(query)));
     }, [query]);
 
+    const handleClear = () => {
+        setQuery('');
+        props.setSelectedUnit({});
+    }
+
     return (
         <HeadlessUICombobox value={props.selectedUnit} onChange={props.setSelectedUnit}>
-            <HeadlessUICombobox.Input displayValue={(unit: unit) => unit.unit_name} className='text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-100  shadow rounded-lg appearance-none focus:outline-none px-5 py-2.5' onChange={(event) => setQuery(event.target.value)} />
-            <HeadlessUICombobox.Options className='white shadow mt-4 rounded-lg max-h-64 overflow-y-auto'>
+            {query !== '' && <button onClick={handleClear} className="absolute -right-8 top-2.5"><XMarkIcon className="w-6 h-6" /></button>}
+            <HeadlessUICombobox.Input placeholder="בחר אוגדה" dir="rtl" displayValue={(unit: unit) => unit.unit_name} className='text-white bg-teal-600 placeholder-opacity-50 placeholder-white hover:bg-teal-700 focus:ring-4 focus:ring-teal-100  shadow rounded-lg appearance-none focus:outline-none px-5 py-2.5' onChange={(event) => setQuery(event.target.value)} />
+            <HeadlessUICombobox.Options className='bg-white shadow mt-4 rounded-lg max-h-64 overflow-y-auto'>
                 {filteredUnits.map((unit) => (
                     <HeadlessUICombobox.Option key={unit.unit_id} value={unit} as={Fragment}>
                         <li className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white '>

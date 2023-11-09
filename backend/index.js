@@ -37,6 +37,15 @@ app.get("/idealInventory", async (req, res, next) => {
   res.status(200).json(rows);
 });
 
+app.patch('/idealInventory', async (req, res, next) => {
+  const value = await pool.query(`
+    UPDATE ideal_Inventory SET value=${req.body.value}
+      WHERE unit_id=${req.body.unit_id} AND item_id=${req.body.item_id}
+      RETURNING value
+  `);
+  res.status(200).json(value);
+});
+
 app.patch('/units', async (req, res, next) => {
   const unitId = await pool.query(`
     UPDATE units SET unit_name='${req.body.unit_name}', command_id=${req.body.command_id} 
@@ -110,6 +119,8 @@ app.post('/commands', async (req, res, next) => {
     `);
   res.status(200).json(commandId);
 });
+
+
 
 app.listen(port, () => {
   console.log(`app started at port ${port}`);
