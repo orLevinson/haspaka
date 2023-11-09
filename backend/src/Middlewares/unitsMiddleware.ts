@@ -10,7 +10,7 @@ import { v4 as uuid } from "uuid";
 
 const getUnits = async (req: Request, res: Response, next: NextFunction) => {
   // #swagger.summary = 'Get all units'
-  // #swagger.description = 'Get array of all the units joined with their command's name - Admin only'
+  // #swagger.description = 'Get array of all the units joined with their commands name - Admin only'
   const unitsController = new UnitsController(next);
   const units = await unitsController.getAll();
   if (units) {

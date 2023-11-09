@@ -27,6 +27,18 @@
     {
       "name": "Items",
       "description": "All the items based routes"
+    },
+    {
+      "name": "Ideal Inventory",
+      "description": "All the Ideal Inventory(teken model) based routes"
+    },
+    {
+      "name": "Needed Inventory",
+      "description": "All the Needed Inventory(items that a unit needs) based routes"
+    },
+    {
+      "name": "Future Supplied",
+      "description": "All the Future Supplied(items that a unit will get in the future) based routes"
     }
   ],
   "paths": {
@@ -373,7 +385,7 @@
           "Units"
         ],
         "summary": "Get all units",
-        "description": "Get array of all the units joined with their command",
+        "description": "Get array of all the units joined with their commands name - Admin only",
         "parameters": [
           {
             "name": "authorization",
@@ -384,8 +396,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         },
         "security": [
@@ -393,17 +405,7 @@
             "bearerAuth": [],
             "apiKeyAuth": []
           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/deleteUnits"
-              }
-            }
-          }
-        }
+        ]
       },
       "post": {
         "tags": [
@@ -676,6 +678,204 @@
           }
         }
       }
+    },
+    "/idealInventory/": {
+      "get": {
+        "tags": [
+          "Ideal Inventory"
+        ],
+        "summary": "Get items by command",
+        "description": "Get items by the user command, admins get all the items",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Ideal Inventory"
+        ],
+        "summary": "Update a record",
+        "description": "Updates a ideal inventory record",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateValue"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/neededInventory/": {
+      "get": {
+        "tags": [
+          "Needed Inventory"
+        ],
+        "summary": "Get items by command",
+        "description": "Get items by the user command, admins get all the items",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Needed Inventory"
+        ],
+        "summary": "Update a record",
+        "description": "Updates a needed inventory record",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateValue"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/futureSupplied/": {
+      "get": {
+        "tags": [
+          "Future Supplied"
+        ],
+        "summary": "Get items by command",
+        "description": "Get items by the user command, admins get all the items",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Future Supplied"
+        ],
+        "summary": "Update a record",
+        "description": "Updates a future supplied record",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateValue"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -865,6 +1065,28 @@
         },
         "required": [
           "items_ids"
+        ]
+      },
+      "updateValue": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "number",
+            "example": 1
+          },
+          "unit_id": {
+            "type": "number",
+            "example": 1
+          },
+          "value": {
+            "type": "number",
+            "example": 123
+          }
+        },
+        "required": [
+          "item_id",
+          "unit_id",
+          "value"
         ]
       }
     }

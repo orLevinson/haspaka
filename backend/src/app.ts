@@ -20,6 +20,9 @@ import commandsRouter from "./Routes/commandsRouter";
 import usersRouter from "./Routes/usersRouter";
 import unitsRouter from "./Routes/unitsRouter";
 import itemsRouter from "./Routes/itemsRouter";
+import idealInventoryRouter from "./Routes/idealInventoryRouter";
+import neededInventoryRouter from "./Routes/neededInventoryRouter";
+import futureSuppliedRouter from "./Routes/futureSuppliedRouter";
 // types
 import Request from "./Types/ExtendedRequest";
 import { Server } from "http";
@@ -48,6 +51,9 @@ app.use("/commands", commandsRouter);
 app.use("/users", usersRouter);
 app.use("/units", unitsRouter);
 app.use("/items", itemsRouter);
+app.use("/idealInventory", idealInventoryRouter);
+app.use("/neededInventory", neededInventoryRouter);
+app.use("/futureSupplied", futureSuppliedRouter);
 
 // swagger page
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
@@ -69,7 +75,7 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-let server:Server;
+let server: Server;
 const validateDBSuccessful = validateDB();
 if (validateDBSuccessful) {
   server = app.listen(process.env.PORT ?? 5000, () => {
