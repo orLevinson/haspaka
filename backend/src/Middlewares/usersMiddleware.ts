@@ -9,12 +9,26 @@ import UsersController from "../Models/usersController";
 import Request from "../Types/ExtendedRequest";
 
 const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Get all users'
+  // #swagger.description = 'Get all the users without passwords - Admins only'
   const usersController = new UsersController(next);
   const users = await usersController.getUsers();
   res.json({ success: true, body: users });
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Register user'
+  // #swagger.description = 'Creates new user without any permissions'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/register"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -68,6 +82,18 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Login user'
+  // #swagger.description = 'Logins a user and returns a JWT token with 1W validity'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/login"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -125,6 +151,19 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Update user's command'
+  // #swagger.description = 'Updates a user command - Admin only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/patchUser"
+                    }  
+                }
+            }
+        } */
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -141,13 +180,15 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Delete user'
+  // #swagger.description = 'Delete a user based on user's id - Admin only'
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const user_id = parseInt(req.params.uid);
+  const user_id: number[] = [parseInt(req.params.uid)];
   const usersController = new UsersController(next);
   const user = await usersController.deleteUser(user_id);
   res.json({ success: true, body: user });

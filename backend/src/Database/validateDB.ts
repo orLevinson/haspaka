@@ -4,7 +4,7 @@ import pool from "./connectionToDB";
 
 const validateDB = () => {
   fs.readFile(
-    path.join(__dirname, "schemaDB.sql"),
+    path.join(process.cwd(), "shared", "schemaDB.sql"),
     "utf8",
     async (err: Error, data) => {
       if (err) {
@@ -13,11 +13,12 @@ const validateDB = () => {
       }
       try {
         await pool.query("BEGIN");
-        data.split("--").forEach(async (sql_statement) => {
+        for (const sql_statement of data.split("--")) {
           await pool.query(sql_statement);
-        });
-        await pool.query("END");
+        }
+        await pool.query("COMMIT");
       } catch (err) {
+        await pool.query("ROLLBACK");
         console.error(
           "Error validating DB schema, sending commands to the server failed"
         );

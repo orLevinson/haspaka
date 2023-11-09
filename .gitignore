@@ -1,3 +1,16 @@
+# envs
+.env
+.env.development
+.env.production
+.env.testing
+backend/*.env
+
+
+# testing and builds
+coverage
+jest.config.js
+dist
+
 # Logs
 logs
 *.log

@@ -82,6 +82,7 @@ class DefaultController<T> {
 
   async add(dataObj: { [key in (typeof this.columns)[number]]?: any }) {
     let data: T;
+    console.log(dataObj);
     try {
       const queryKeyString = `(${this.columns.join(",")})`;
       const queryParamArray: string[] = [];
@@ -153,17 +154,22 @@ class DefaultController<T> {
     }
   }
 
-  async delete(id: number) {
-    let data: T;
+  async delete(ids: number[]) {
+    let data: T[];
     try {
+      let queryParams = `(${ids
+        .map((_i, index) => `$${index + 1}`)
+        .join(",")})`;
+
       const { rows }: { rows: Array<T> } = await pool.query(
-        `DELETE FROM ${this.table} WHERE ${this.id_column}=$1 RETURNING *`,
-        [id]
+        `DELETE FROM ${this.table} WHERE ${this.id_column} IN ${queryParams} RETURNING *`,
+        [...ids]
       );
       if (rows.length == 0) {
         throw new Error();
       }
-      data = rows[0];
+
+      data = rows;
       return data;
     } catch (error) {
       console.log(error);
