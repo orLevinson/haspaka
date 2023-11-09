@@ -30,15 +30,27 @@
     },
     {
       "name": "Ideal Inventory",
-      "description": "All the Ideal Inventory(teken model) based routes"
+      "description": "All the Ideal Inventory (teken model) based routes"
     },
     {
       "name": "Needed Inventory",
-      "description": "All the Needed Inventory(items that a unit needs) based routes"
+      "description": "All the Needed Inventory (items that a unit needs) based routes"
     },
     {
       "name": "Future Supplied",
-      "description": "All the Future Supplied(items that a unit will get in the future) based routes"
+      "description": "All the Future Supplied (items that a unit will get in the future) based routes"
+    },
+    {
+      "name": "Inventory Tracking",
+      "description": "All the Inventory tracking (of needed items) records based routes"
+    },
+    {
+      "name": "Marhas Inventory",
+      "description": "All the Marhas inventory records based routes"
+    },
+    {
+      "name": "Given So Far",
+      "description": "All the Given so far(items that were given from the marhas to the field units) records based routes"
     }
   ],
   "paths": {
@@ -302,7 +314,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Update user",
+        "summary": "Update user command",
         "description": "Updates a user command - Admin only",
         "parameters": [
           {
@@ -348,7 +360,7 @@
           "Users"
         ],
         "summary": "Delete user",
-        "description": "Delete a user based on user",
+        "description": "Delete a user based on user id - Admin only",
         "parameters": [
           {
             "name": "uid",
@@ -367,8 +379,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         },
         "security": [
@@ -487,8 +499,8 @@
         "tags": [
           "Units"
         ],
-        "summary": "Update units",
-        "description": "Updates a unit",
+        "summary": "Update units command",
+        "description": "Updates a unit command - Admin Only",
         "parameters": [
           {
             "name": "uid",
@@ -711,8 +723,8 @@
         "tags": [
           "Ideal Inventory"
         ],
-        "summary": "Update a record",
-        "description": "Updates a ideal inventory record",
+        "summary": "Update a records value",
+        "description": "Updates a ideal inventory records value - Admins only",
         "parameters": [
           {
             "name": "authorization",
@@ -777,8 +789,8 @@
         "tags": [
           "Needed Inventory"
         ],
-        "summary": "Update a record",
-        "description": "Updates a needed inventory record",
+        "summary": "Update a record value",
+        "description": "Updates a needed inventory record value, can be done only if user has access to the unit command or he is an admin",
         "parameters": [
           {
             "name": "authorization",
@@ -789,8 +801,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         },
         "security": [
@@ -844,7 +856,7 @@
           "Future Supplied"
         ],
         "summary": "Update a record",
-        "description": "Updates a future supplied record",
+        "description": "Updates a future supplied records value, can be done only if user has access to the units command or he is an admin",
         "parameters": [
           {
             "name": "authorization",
@@ -871,6 +883,396 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/updateValue"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventoryTracking/": {
+      "get": {
+        "tags": [
+          "Inventory Tracking"
+        ],
+        "summary": "Get inventory tracking data",
+        "description": "Get all the inventory tracking data - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Inventory Tracking"
+        ],
+        "summary": "Add records of inventory tracking",
+        "description": "Creates for each item a record of inventory tracking - sum of all the units values of needed inventory - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Inventory Tracking"
+        ],
+        "summary": "Update a record value",
+        "description": "Updates a manually an inventory tracking record value based on its items id and date - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateValueRecord"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inventory Tracking"
+        ],
+        "summary": "Delete record by date",
+        "description": "Delete all the records of inventory tracking that belong to a certain date - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deleteRecord"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marhasInventory/": {
+      "get": {
+        "tags": [
+          "Marhas Inventory"
+        ],
+        "summary": "Get marhas inventory data",
+        "description": "Get all the marhas inventory data - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Marhas Inventory"
+        ],
+        "summary": "Add empty records of marhas inventory",
+        "description": "Creates for each item an empty record of marhas inventory - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Marhas Inventory"
+        ],
+        "summary": "Update a record value",
+        "description": "Updates a marhas inventory record value based on its items id and date - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateValueRecord"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Marhas Inventory"
+        ],
+        "summary": "Delete record by date",
+        "description": "Delete all the records of marhas inventory that belong to a certain date - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deleteRecord"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/givenSoFar/": {
+      "get": {
+        "tags": [
+          "Given So Far"
+        ],
+        "summary": "Get given so far data",
+        "description": "Get all the given so far data - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Given So Far"
+        ],
+        "summary": "Add empty records of given so far",
+        "description": "Creates for each item an empty record of given so far - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Given So Far"
+        ],
+        "summary": "Update a record value",
+        "description": "Updates a given so far record value based on its items id and date - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateValueRecord"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Given So Far"
+        ],
+        "summary": "Delete record by date",
+        "description": "Delete all the records of given so far that belong to a certain date - Admins only",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deleteRecord"
               }
             }
           }
@@ -1087,6 +1489,40 @@
           "item_id",
           "unit_id",
           "value"
+        ]
+      },
+      "updateValueRecord": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "number",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "example": "01-01-1999"
+          },
+          "value": {
+            "type": "number",
+            "example": 123
+          }
+        },
+        "required": [
+          "item_id",
+          "date",
+          "value"
+        ]
+      },
+      "deleteRecord": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "01-01-1999"
+          }
+        },
+        "required": [
+          "date"
         ]
       }
     }

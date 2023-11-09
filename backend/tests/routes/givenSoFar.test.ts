@@ -13,19 +13,19 @@ import getAuthTokens from "../getAuth";
 
 const tokens = getAuthTokens(app);
 
-describe("GET /marhasInventory/ - no auth", () => {
-    test("Get marhasInventory without auth", async () => {
-      const res = await request(app).get("/marhasInventory/");
+describe("GET /givenSoFar/ - no auth", () => {
+    test("Get givenSoFar without auth", async () => {
+      const res = await request(app).get("/givenSoFar/");
       expect(res.statusCode).toBe(403);
       expect(res.body.body).toBe("Authentication failed");
     });
   });
   
-  describe("GET /marhasInventory/ - with admin", () => {
-    test("Get marhasInventory with admin auth", async () => {
+  describe("GET /givenSoFar/ - with admin", () => {
+    test("Get givenSoFar with admin auth", async () => {
       const { adminToken } = await tokens;
       const res = await request(app)
-        .get("/marhasInventory/")
+        .get("/givenSoFar/")
         .set("Authorization", `bearer ${adminToken}`);
       expect(res.statusCode).toBe(200);
       expect(Array.isArray(res.body.body)).toBe(true);

@@ -27,27 +27,32 @@ const doc = {
     },
     {
       name: "Ideal Inventory",
-      description: "All the Ideal Inventory(teken model) based routes",
+      description: "All the Ideal Inventory (teken model) based routes",
     },
     {
       name: "Needed Inventory",
       description:
-        "All the Needed Inventory(items that a unit needs) based routes",
+        "All the Needed Inventory (items that a unit needs) based routes",
     },
     {
       name: "Future Supplied",
       description:
-        "All the Future Supplied(items that a unit will get in the future) based routes",
+        "All the Future Supplied (items that a unit will get in the future) based routes",
     },
     {
       name:"Inventory Tracking",
       description:
-        "All the Inventory tracking(of needed items) records based routes",
+        "All the Inventory tracking (of needed items) records based routes",
     },
     {
       name:"Marhas Inventory",
       description:
         "All the Marhas inventory records based routes",
+    },
+    {
+      name:"Given So Far",
+      description:
+      "All the Given so far(items that were given from the marhas to the field units) records based routes",
     }
   ],
   servers: [
