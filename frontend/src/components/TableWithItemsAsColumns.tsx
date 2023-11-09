@@ -1,0 +1,121 @@
+import { AgGridReact } from "ag-grid-react";
+import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useQuery } from "react-query";
+import { inventory } from "../types/inventory";
+import { item } from "../types/item";
+import { ColDef } from "ag-grid-community";
+
+const TableWithItemsAsColumns = (props) => {
+
+    const itemsQuery = useQuery<item[]>('items', () =>
+        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/items").then(res => res.json())
+    );
+
+    const gridRef = useRef<AgGridReact>();
+    const [itemMappings, setItemMappings] = useState<{ [key: number]: string }>({});
+    const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
+    const [rowData, setRowData] = useState([]);
+    const [selectedRows, setSelectedRows] = useState([]);
+
+    const url = `${import.meta.env.VITE_REACT_APP_BASE_URL}/${props.type}`;
+
+    const query = useQuery<inventory[]>(props.type, () => fetch(url).then(res => res.json()));
+
+    useEffect(() => {
+        if (itemsQuery.data) {
+            const c = {};
+            itemsQuery.data.forEach(item => {
+                c[item.item_id] = item.item_name;
+            });
+            setItemMappings(c);
+            const dateColDef = {
+                field: 'date',
+                headerName: 'תאריך',
+                pinned: 'right',
+                width: '150',
+                editable: false,
+                cellRenderer: (data) => data.value ? (new Date(data.value)).toLocaleDateString(
+                    'en-IL',
+                    {
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: "numeric",
+                        minute: 'numeric',
+                    }
+                ) : ''
+            };
+            const colDefs = [dateColDef].concat(
+                itemsQuery.data.map((i: item) => ({
+                    field: i.item_id.toString(),
+                    headerName: i.item_name,
+                    valueFormatter: (params) => !params.value ? 0 : params.value
+                }))
+            );
+            setColumnDefs(colDefs);
+        }
+    }, [itemsQuery.data]);
+
+    useEffect(() => {
+        if (query.data) {
+            const rows = [];
+            const dates: { [id: Date]: { [id: Number]: number } } = {};
+            query.data.forEach((i: inventory) => {
+                const date = new Date(i.date);
+                const pair = {};
+                dates[date] = { ...dates[date], [i.item_id]: i.value };
+            });
+            setRowData(Object.keys(dates).map(date => ({ ...dates[date], date: new Date(date) })));
+        }
+    }, [query.data]);
+
+    const defaultColDef = useMemo(() => ({
+        sortable: true,
+        editable: true
+    }));
+
+    const cellClickedListener = useCallback(event => {
+        setSelectedRows(gridRef.current!.api.getSelectedRows());
+    }, []);
+
+    const handleChange = e => {
+        const copy = structuredClone(e.data);
+        console.log(e.data);
+        // update(copy);
+    }
+
+    const handleRemove = () => {
+
+    }
+
+    return (
+        <div className="flex flex-col justify-center gap-4 w-full">
+            <div className="flex justify-between w-[75%] mx-auto">
+                <div className="flex gap-4 relative z-10">
+                    {/* <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button> */}
+                    {0 < selectedRows.length && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
+                </div>
+                <span className="py-2 text-xl">{props.title}</span>
+            </div>
+
+            {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
+            <div className="ag-theme-alpine mx-auto w-[75%] h-[70vh] shadow-lg">
+
+                <AgGridReact
+                    ref={gridRef} // Ref for accessing Grid's API
+                    enableRtl={true}
+                    rowData={rowData} // Row Data for Rows
+                    onCellValueChanged={handleChange}
+                    columnDefs={columnDefs} // Column Defs for Columns
+                    defaultColDef={defaultColDef} // Default Column Properties
+                    enableCellChangeFlash={true}
+                    animateRows={true} // Optional - set to 'true' to have rows animate when sorted
+                    rowSelection='multiple' // Options - allows click selection of rows
+                    onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+                />
+            </div>
+        </div>
+    );
+}
+
+export default TableWithItemsAsColumns;
