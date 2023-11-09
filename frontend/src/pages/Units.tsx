@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from 'react-dom/client';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 
@@ -10,12 +10,17 @@ import { unit } from "../types/unit";
 import { command } from "../types/command";
 import { ColDef } from "ag-grid-community";
 import GenericGrid from "../components/GenericGrid";
+import { UserCtx } from "../shared/userCtx";
 
 const Units = () => {
 
+    const { userData } = useContext(UserCtx);
+
     const commandsQuery = useQuery<command[]>('commands', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/commands").then(res => res.json())
-    );
+    axios.get(import.meta.env.VITE_REACT_APP_BASE_URL + "/commands", {
+        headers: { Authorization: `Bearer ${userData.token}` }
+    }).then(res => res.data.body), { enabled: userData.token !== undefined }
+);
 
     const [commandMappings, setCommandMappings] = useState<{ [key: number]: string }>({});
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);

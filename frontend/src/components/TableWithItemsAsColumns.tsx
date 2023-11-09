@@ -1,14 +1,20 @@
 import { AgGridReact } from "ag-grid-react";
-import { Ref, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Ref, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { inventory } from "../types/inventory";
 import { item } from "../types/item";
-import { ColDef } from "ag-grid-community";
+import { CellValueChangedEvent, ColDef } from "ag-grid-community";
+import axios from "axios";
+import { UserCtx } from "../shared/userCtx";
 
 const TableWithItemsAsColumns = (props) => {
 
+    const { userData } = useContext(UserCtx);
+
     const itemsQuery = useQuery<item[]>('items', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/items").then(res => res.json())
+        axios.get(import.meta.env.VITE_REACT_APP_BASE_URL + "/items", {
+            headers: { Authorization: `Bearer ${userData.token}` }
+        }).then(res => res.data.body), { enabled: userData.token !== undefined }
     );
 
     const gridRef = useRef<AgGridReact>();
@@ -19,8 +25,13 @@ const TableWithItemsAsColumns = (props) => {
 
     const url = `${import.meta.env.VITE_REACT_APP_BASE_URL}/${props.type}`;
 
-    const query = useQuery<inventory[]>(props.type, () => fetch(url).then(res => res.json()));
+    const query = useQuery<inventory[]>(props.type, () =>
+        axios.get(url, {
+            headers: { Authorization: `Bearer ${userData.token}` }
+        }).then(res => res.data.body), { enabled: userData.token !== undefined }
+    );
 
+    // set the column definition according to the items
     useEffect(() => {
         if (itemsQuery.data) {
             const c = {};
@@ -32,7 +43,7 @@ const TableWithItemsAsColumns = (props) => {
                 field: 'date',
                 headerName: 'תאריך',
                 pinned: 'right',
-                width: '150',
+                width: 150,
                 editable: false,
                 cellRenderer: (data) => data.value ? (new Date(data.value)).toLocaleDateString(
                     'en-IL',
@@ -56,6 +67,7 @@ const TableWithItemsAsColumns = (props) => {
         }
     }, [itemsQuery.data]);
 
+    // set the row data
     useEffect(() => {
         if (query.data) {
             const rows = [];
@@ -78,15 +90,32 @@ const TableWithItemsAsColumns = (props) => {
         setSelectedRows(gridRef.current!.api.getSelectedRows());
     }, []);
 
-    const handleChange = e => {
-        const copy = structuredClone(e.data);
-        console.log(e.data);
-        // update(copy);
+    const handleChange = (e: CellValueChangedEvent<TData>) => {
+        const itemId = parseInt(e.column.getColId());
+        const value = e.newValue;
+        const date: Date = e.data.date;
+        const result = { item_id: itemId, value: value, date: date.toISOString() };
+
+        console.log(result);
+
+        // item already exists
+        if (query.data.find(item => item.date === date.toISOString() && item.item_id === itemId)) update(result);
+
+        // item not exists
+        else insert(result);
     }
 
     const handleRemove = () => {
 
     }
+
+    const insert = (item: inventory) => axios.post(url, item)
+        .then(res => query.refetch())
+        .catch(err => console.error(err));
+
+    const update = (item: inventory) => axios.patch(url, item)
+        .then(res => query.refetch())
+        .catch(err => console.error(err));
 
     return (
         <div className="flex flex-col justify-center gap-4 w-full">

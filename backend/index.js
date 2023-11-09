@@ -76,6 +76,16 @@ app.patch('/neededInventory', async (req, res, next) => {
   res.status(200).json(value);
 });
 
+app.patch('/marhasInventory', async (req, res, next) => {
+  console.log(req.body);
+  const value = await pool.query(`
+    UPDATE Marhas_Inventory SET value=${req.body.value}
+      WHERE date=$1 AND item_id=${req.body.item_id}
+      RETURNING value
+  `, [req.body.date]);
+  res.status(200).json(value);
+});
+
 app.patch('/givenSoFar', async (req, res, next) => {
   console.log(req.body);
   const value = await pool.query(`

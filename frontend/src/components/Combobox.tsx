@@ -1,15 +1,20 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import GenericGrid from "../components/GenericGrid";
 import { Combobox as HeadlessUICombobox } from '@headlessui/react'
 import { unit } from "../types/unit";
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { ComboboxProps } from "../types/ComboboxProps";
+import { UserCtx } from "../shared/userCtx";
 
 const Combobox = (props: ComboboxProps) => {
 
+    const { userData } = useContext(UserCtx);
+
     const unitsQuery = useQuery<unit[]>('units', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/units").then(res => res.json())
+        axios.get(import.meta.env.VITE_REACT_APP_BASE_URL + "/units", {
+            headers: { Authorization: `Bearer ${userData.token}` }
+        }).then(res => res.data.body), { enabled: userData.token !== undefined }
     );
 
     const [query, setQuery] = useState('');

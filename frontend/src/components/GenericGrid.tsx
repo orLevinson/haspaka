@@ -1,10 +1,11 @@
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { GenericGridProps } from "../types/GenericGridProps";
 import axios from "axios";
 import Combobox from "../components/Combobox";
 import { CellValueChangedEvent } from "ag-grid-community";
+import { UserCtx } from "../shared/userCtx";
 
 const GenericGrid = (props: GenericGridProps) => {
 
@@ -12,10 +13,18 @@ const GenericGrid = (props: GenericGridProps) => {
     const url = `${import.meta.env.VITE_REACT_APP_BASE_URL}/${props.type}`;
     const [rowData, setRowData] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
+    const [data, setData] = useState([]);
+    const { userData } = useContext(UserCtx);
 
-    const query = useQuery(props.type, () => fetch(url).then(res => res.json()));
+    const query = useQuery(props.type, () =>
+        axios.get(url, {
+            headers: { Authorization: `Bearer ${userData.token}` }
+        }).then(res => res.data.body), { enabled: userData.token !== undefined }
+    );
 
     useEffect(() => {
+        console.log(query.data);
+
         if (query.data) {
             setRowData(query.data.map((item: { date: string | Date; }) => item.date ? { ...item, date: new Date(item.date) } : item));
         }
@@ -65,7 +74,7 @@ const GenericGrid = (props: GenericGridProps) => {
             <div className="flex justify-between w-[50%] mx-auto">
                 <div className="flex gap-4 relative z-10">
                     <div className="absolute z-50">
-                        {props.isReadonly && props.selectedUnit  && <Combobox selectedUnit={props.selectedUnit} setSelectedUnit={props.setSelectedUnit} />}
+                        {props.isReadonly && props.selectedUnit && <Combobox selectedUnit={props.selectedUnit} setSelectedUnit={props.setSelectedUnit} />}
                     </div>
                     {!props.isReadonly && <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>}
                     {0 < selectedRows.length && !props.isReadonly && <button onClick={handleRemove} className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow">מחק</button>}
@@ -77,7 +86,7 @@ const GenericGrid = (props: GenericGridProps) => {
             <div className="ag-theme-alpine mx-auto w-[50%] h-[70vh] shadow-lg">
 
                 <AgGridReact
-                // @ts-ignore
+                    // @ts-ignore
                     ref={gridRef} // Ref for accessing Grid's API
                     enableRtl={true}
                     rowData={rowData} // Row Data for Rows

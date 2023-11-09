@@ -1,16 +1,24 @@
 import { ColDef } from "ag-grid-community";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import GenericGrid from "../components/GenericGrid";
+import { unit } from "../types/unit";
+import { UserCtx } from "../shared/userCtx";
 
 const TableWithUnitFiltering = (props) => {
 
+    const { userData } = useContext(UserCtx);
+
     const itemsQuery = useQuery<item[]>('items', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/items").then(res => res.json())
+        axios.get(import.meta.env.VITE_REACT_APP_BASE_URL + "/items", {
+            headers: { Authorization: `Bearer ${userData.token}` }
+        }).then(res => res.data.body), { enabled: userData.token !== undefined }
     );
 
-    const unitsQuery = useQuery<command[]>('units', () =>
-        fetch(import.meta.env.VITE_REACT_APP_BASE_URL + "/units").then(res => res.json())
+    const unitsQuery = useQuery<unit[]>('units', () =>
+        axios.get(import.meta.env.VITE_REACT_APP_BASE_URL + "/units", {
+            headers: { Authorization: `Bearer ${userData.token}` }
+        }).then(res => res.data.body), { enabled: userData.token !== undefined }
     );
 
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
