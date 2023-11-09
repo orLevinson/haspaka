@@ -59,8 +59,8 @@ const addUnit = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.summary = 'Update units's command'
-  // #swagger.description = 'Updates a unit's command - Admin Only'
+  // #swagger.summary = 'Update units command'
+  // #swagger.description = 'Updates a unit command - Admin Only'
   /*  #swagger.requestBody = {
             required: true,
             content: {

@@ -28,8 +28,8 @@ const updateItemValue = async (
   res: Response,
   next: NextFunction
 ) => {
-  // #swagger.summary = 'Update a record's value'
-  // #swagger.description = 'Updates a ideal inventory record's value - Admins only'
+  // #swagger.summary = 'Update a records value'
+  // #swagger.description = 'Updates a ideal inventory records value - Admins only'
   /*  #swagger.requestBody = {
             required: true,
             content: {

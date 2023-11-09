@@ -151,7 +151,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.summary = 'Update user's command'
+  // #swagger.summary = 'Update user command'
   // #swagger.description = 'Updates a user command - Admin only'
   /*  #swagger.requestBody = {
             required: true,
@@ -181,7 +181,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   // #swagger.summary = 'Delete user'
-  // #swagger.description = 'Delete a user based on user's id - Admin only'
+  // #swagger.description = 'Delete a user based on user id - Admin only'
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(

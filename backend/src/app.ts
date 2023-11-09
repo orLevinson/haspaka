@@ -23,6 +23,8 @@ import itemsRouter from "./Routes/itemsRouter";
 import idealInventoryRouter from "./Routes/idealInventoryRouter";
 import neededInventoryRouter from "./Routes/neededInventoryRouter";
 import futureSuppliedRouter from "./Routes/futureSuppliedRouter";
+import inventoryTrackingRouter from "./Routes/inventoryTrackingRouter";
+import marhasInventoryRouter from "./Routes/marhasInventoryRouter";
 // types
 import Request from "./Types/ExtendedRequest";
 import { Server } from "http";
@@ -54,6 +56,8 @@ app.use("/items", itemsRouter);
 app.use("/idealInventory", idealInventoryRouter);
 app.use("/neededInventory", neededInventoryRouter);
 app.use("/futureSupplied", futureSuppliedRouter);
+app.use("/inventoryTracking", inventoryTrackingRouter);
+app.use("/marhasInventory", marhasInventoryRouter);
 
 // swagger page
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));

@@ -29,7 +29,7 @@ const updateItemValue = async (
   next: NextFunction
 ) => {
   // #swagger.summary = 'Update a record's value'
-  // #swagger.description = 'Updates a future supplied record's value, can be done only if user has access to the unit's command or he is an admin'
+  // #swagger.description = 'Updates a future supplied records value, can be done only if user has access to the units command or he is an admin'
   /*  #swagger.requestBody = {
             required: true,
             content: {
