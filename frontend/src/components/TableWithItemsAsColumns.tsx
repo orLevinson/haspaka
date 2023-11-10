@@ -68,12 +68,12 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
         cellRenderer: (data: any) =>
           data.value
             ? new Date(data.value).toLocaleDateString("en-IL", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              })
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            })
             : "",
       };
       const colDefs: ColDef[] = [dateColDef].concat(
@@ -136,7 +136,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
     // else insert(result);
   };
 
-  const handleRemove = () => {};
+  const handleRemove = () => { };
 
   const insert = (item: inventory) =>
     axios
@@ -157,6 +157,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
   return (
     <div className="flex flex-col justify-center gap-4 w-full mt-8">
       <div className="flex justify-between w-[75%] mx-auto">
+        <span className="py-2 text-xl">{props.title}</span>
         <div className="flex gap-4 relative z-10">
           {/* <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button> */}
           {0 < selectedRows.length && (
@@ -168,7 +169,6 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
             </button>
           )}
         </div>
-        <span className="py-2 text-xl">{props.title}</span>
       </div>
 
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
