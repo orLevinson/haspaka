@@ -6,6 +6,7 @@ import { NextFunction } from "express";
 import { InventoryTracking } from "../Types/inventoryTracking";
 // DB imports
 import pool from "../Database/connectionToDB";
+import { Console } from "console";
 
 class InventoryTrackingController extends DefaultController<InventoryTracking> {
   constructor(errCallback: NextFunction) {
@@ -42,23 +43,37 @@ class InventoryTrackingController extends DefaultController<InventoryTracking> {
   async changeValue(date: Date, item_id: number, value: number) {
     let data: InventoryTracking;
     try {
-      const { rows }: { rows: Array<InventoryTracking> } = await pool.query(
+      let { rows }: { rows: Array<InventoryTracking> } = await pool.query(
         this.CreateJoinedQuery(
-          `UPDATE ${this.table}
-            SET value=$1
-          WHERE date=(to_timestamp( $2 / 1000.0)) AND item_id=$3
-          RETURNING *`
+          `
+             UPDATE ${this.table}
+              SET value = $1
+              WHERE date = to_timestamp($2 / 1000.0) AND item_id = $3
+              RETURNING *
+          `
         ),
         [value, date.getTime(), item_id]
       );
 
       if (rows.length == 0) {
-        throw new Error();
+        let { rows: insertedRows }: { rows: Array<InventoryTracking> } =
+          await pool.query(
+            this.CreateJoinedQuery(
+              `
+               INSERT INTO ${this.table}(date, item_id, value)
+               VALUES ((to_timestamp($2 / 1000.0)),$3, $1)
+               RETURNING *
+            `
+            ),
+            [value, date.getTime(), item_id]
+          );
+        rows = insertedRows;
       }
-
       data = { ...rows[0], date: new Date(rows[0].date) };
+
       return data;
     } catch (error) {
+      console.error(error);
       return this.errCallback(
         new HttpError("An error occured while updating data", 500)
       );
