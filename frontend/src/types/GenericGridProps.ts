@@ -5,9 +5,10 @@ interface GenericGridProps {
     title: string;
     columnDefs: ColDef[];
     type: string;
-    isReadonly?: boolean;
+    isTableWithUnitFiltering?: boolean;
     selectedUnit?: unit;
     setSelectedUnit?: any;
+    noAddOrDelete?: boolean;
 }
 
 export type { GenericGridProps };

@@ -39,7 +39,7 @@ const GenericGrid = (props: GenericGridProps) => {
   }, [query.data]);
 
   useEffect(() => {
-    if (!props.isReadonly || !props.selectedUnit) return;
+    if (!props.isTableWithUnitFiltering || !props.selectedUnit) return;
     if (Object.keys(props.selectedUnit).length < 1) setRowData(query.data);
     else
       setRowData(
@@ -83,7 +83,7 @@ const GenericGrid = (props: GenericGridProps) => {
 
   const update = (item: any) => {
     const itemAttribute = `${props.type.slice(0, -1)}_id`;
-    const urlToPatch = props.isReadonly ? url : `${url}/${item[itemAttribute]}`;
+    const urlToPatch = props.tableWithUnitFiltering ? url : `${url}/${item[itemAttribute]}`;
     axios
       .patch(urlToPatch, item, {
         headers: { Authorization: `Bearer ${userData.token}` },
@@ -108,14 +108,14 @@ const GenericGrid = (props: GenericGridProps) => {
       <div className="flex justify-between w-[50%] mx-auto">
         <div className="flex gap-4 relative z-10">
           <div className="absolute z-50">
-            {props.isReadonly && props.selectedUnit && (
+            {props.isTableWithUnitFiltering && (
               <Combobox
                 selectedUnit={props.selectedUnit}
                 setSelectedUnit={props.setSelectedUnit}
               />
             )}
           </div>
-          {!props.isReadonly && (
+          {!props.noAddOrDelete && (
             <button
               onClick={add}
               className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow"
@@ -123,7 +123,7 @@ const GenericGrid = (props: GenericGridProps) => {
               הוסף
             </button>
           )}
-          {0 < selectedRows.length && !props.isReadonly && (
+          {0 < selectedRows.length && !props.noAddOrDelete && (
             <button
               onClick={handleRemove}
               className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow"
