@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserCtx } from "./userCtx";
 
@@ -11,6 +11,7 @@ const useCheckPermission = ({
   const { userData } = useContext(UserCtx);
 
   const { command_name } = userData;
+  const first_reload = useRef(true);
 
   useEffect(() => {
     const wrapper = () => {
@@ -29,12 +30,16 @@ const useCheckPermission = ({
           return navigate("/neededInventory");
           break;
         default:
-          return;
+          return navigate("/login");
       }
     };
-    wrapper();
+    if (first_reload.current) {
+      first_reload.current = false;
+    } else {
+      wrapper();
+    }
   }, [navigate, command_name]);
-  
+
   return 1;
 };
 

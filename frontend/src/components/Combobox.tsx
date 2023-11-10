@@ -6,6 +6,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { ComboboxProps } from "../types/ComboboxProps";
 import { UserCtx } from "../shared/userCtx";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Combobox = (props: ComboboxProps) => {
   const { userData } = useContext(UserCtx);
@@ -17,7 +18,10 @@ const Combobox = (props: ComboboxProps) => {
         .get(import.meta.env.VITE_REACT_APP_BASE_URL + "/units", {
           headers: { Authorization: `Bearer ${userData.token}` },
         })
-        .then((res) => res.data.body),
+        .then(() => {
+          toast.error("חלה שגיאה במהלך שליפת הנתונים");
+          return [];
+        }),
     { enabled: userData.token !== undefined }
   );
 

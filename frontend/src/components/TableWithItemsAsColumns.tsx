@@ -1,17 +1,16 @@
 import { AgGridReact } from "ag-grid-react";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { inventory } from "../types/inventory";
 import { item } from "../types/item";
-import { CellClickedEvent, CellValueChangedEvent, ColDef } from "ag-grid-community";
+import {
+  CellClickedEvent,
+  CellValueChangedEvent,
+  ColDef,
+} from "ag-grid-community";
 import axios from "axios";
 import { UserCtx } from "../shared/userCtx";
+import { toast } from "react-toastify";
 
 const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
   const { userData } = useContext(UserCtx);
@@ -44,7 +43,11 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
         .get(url, {
           headers: { Authorization: `Bearer ${userData.token}` },
         })
-        .then((res) => res.data.body),
+        .then((res) => res.data.body)
+        .catch(() => {
+          toast.error("חלה שגיאה במהלך שליפת הנתונים");
+          return [];
+        }),
     { enabled: userData.token !== undefined }
   );
 
@@ -141,7 +144,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((res) => query.refetch())
-      .catch((err) => console.error(err));
+      .catch(() => toast.error("חלה שגיאה במהלך הוספת הנתונים"));
 
   const update = (item: inventory) =>
     axios
@@ -149,7 +152,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((res) => query.refetch())
-      .catch((err) => console.error(err));
+      .catch(() => toast.error("חלה שגיאה במהלך עדכון הנתונים"));
 
   return (
     <div className="flex flex-col justify-center gap-4 w-full mt-8">
@@ -171,7 +174,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
       <div className="ag-theme-alpine mx-auto w-[75%] h-[80vh] shadow-lg">
         <AgGridReact
-        // @ts-ignore
+          // @ts-ignore
           ref={gridRef} // Ref for accessing Grid's API
           enableRtl={true}
           rowData={rowData} // Row Data for Rows

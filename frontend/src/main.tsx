@@ -15,62 +15,60 @@ import FutureSupplied from "./pages/FutureSupplied";
 import GivenSoFar from "./pages/GivenSoFar";
 import NeededInventory from "./pages/NeededInventory";
 import MarhasInventory from "./pages/MarhasInventory";
-import { UserDataCtxProvider } from "./shared/userCtx";
-
 
 const router = createBrowserRouter([
   {
-    id:"דף הבית",
+    id: "דף הבית",
     path: "/",
     element: <App />,
     children: [
       {
-        id:"פריטים",
+        id: "פריטים",
         path: "/items",
         element: <Items />,
       },
       {
-        id:'מלאי מרה"ס',
+        id: 'מלאי מרה"ס',
         path: "/marhasInventory",
         element: <MarhasInventory />,
       },
       {
-        id:"נופק עד כה",
+        id: "נופק עד כה",
         path: "/givenSoFar",
         element: <GivenSoFar />,
       },
       {
-        id:"תקן מודל",
+        id: "תקן מודל",
         path: "/idealInventory",
         element: <IdealInventory />,
       },
       {
-        id:"פערי יחידות",
+        id: "פערי יחידות",
         path: "/neededInventory",
         element: <NeededInventory />,
       },
       {
-        id:"אושר לניפוק",
+        id: "אושר לניפוק",
         path: "/futureSupplied",
         element: <FutureSupplied />,
       },
       {
-        id:"אוגדות",
+        id: "אוגדות",
         path: "/units",
         element: <Units />,
       },
       {
-        id:"פיקודים",
+        id: "פיקודים",
         path: "/commands",
         element: <Commands />,
       },
       {
-        id:"התחברות",
+        id: "התחברות",
         path: "/login",
         element: <Login />,
       },
       {
-        id:"הרשמה",
+        id: "הרשמה",
         path: "/register",
         element: <Register />,
       },
@@ -83,9 +81,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <UserDataCtxProvider>
-      <RouterProvider router={router} />
-    </UserDataCtxProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+    <RouterProvider router={router} />
+  // </React.StrictMode>
 );
