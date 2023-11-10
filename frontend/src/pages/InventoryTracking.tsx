@@ -2,7 +2,6 @@ import TableWithItemsAsColumns from "../components/TableWithItemsAsColumns";
 import useCheckPermission from "../shared/useCheckPermission";
 
 const InventoryTracking = () => {
-
     useCheckPermission({ permission: "admins" })
 
     return (

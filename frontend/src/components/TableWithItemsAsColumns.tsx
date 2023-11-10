@@ -138,12 +138,13 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
 
   const handleRemove = () => { };
 
+//   @ts-ignore
   const insert = (item: inventory) =>
     axios
       .post(url, item, {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
-      .then((res) => query.refetch())
+      .then((_res) => query.refetch())
       .catch(() => toast.error("חלה שגיאה במהלך הוספת הנתונים"));
 
   const update = (item: inventory) =>
@@ -151,7 +152,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
       .patch(url, item, {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
-      .then((res) => query.refetch())
+      .then((_res) => query.refetch())
       .catch(() => toast.error("חלה שגיאה במהלך עדכון הנתונים"));
 
   return (
