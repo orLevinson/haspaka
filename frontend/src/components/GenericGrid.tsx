@@ -6,6 +6,7 @@ import axios from "axios";
 import Combobox from "../components/Combobox";
 import { CellValueChangedEvent } from "ag-grid-community";
 import { UserCtx } from "../shared/userCtx";
+import { toast } from "react-toastify";
 
 const GenericGrid = (props: GenericGridProps) => {
   const gridRef = useRef<AgGridReact>();
@@ -22,7 +23,11 @@ const GenericGrid = (props: GenericGridProps) => {
         .get(url, {
           headers: { Authorization: `Bearer ${userData.token}` },
         })
-        .then((res) => res.data.body),
+        .then((res) => res.data.body)
+        .catch(() => {
+          toast.error("חלה שגיאה במהלך שליפת הנתונים");
+          return [];
+        }),
     { enabled: userData.token !== undefined }
   );
 
@@ -79,7 +84,7 @@ const GenericGrid = (props: GenericGridProps) => {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((_res) => query.refetch())
-      .catch((err) => console.error(err));
+      .catch(() => toast.error("חלה שגיאה במהלך הוספת הנתונים"));
 
   const update = (item: any) => {
     const itemAttribute = `${props.type.slice(0, -1)}_id`;
@@ -89,7 +94,7 @@ const GenericGrid = (props: GenericGridProps) => {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((_res) => query.refetch())
-      .catch((err) => console.error(err));
+      .catch(() => toast.error("חלה שגיאה במהלך עדכון הנתונים"));
   };
 
   const remove = (key: string, ids: string[]) =>
@@ -101,7 +106,7 @@ const GenericGrid = (props: GenericGridProps) => {
         data: { [key]: ids },
       })
       .then((_res) => query.refetch())
-      .catch((err) => console.error(err));
+      .catch(() => toast.error("חלה שגיאה במהלך מחיקת הנתונים"));
 
   return (
     <div className="flex flex-col justify-center gap-4 w-full mt-8">

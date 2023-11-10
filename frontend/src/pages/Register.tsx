@@ -1,13 +1,15 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import useCheckPermission from "../shared/useCheckPermission";
+import { UserCtx } from "../shared/userCtx";
 
 const Register = () => {
   // localStorage.setItem('jwt', 'abcde');
   // window.dispatchEvent(new Event('storage'));
   // return <Navigate to='/units' />
-
+  const { saveUserData } = useContext(UserCtx);
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -18,15 +20,34 @@ const Register = () => {
     setUsername(value);
   };
 
-  const handleSubmit = () =>
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     axios
       .post(import.meta.env.VITE_REACT_APP_BASE_URL + "/users/register", {
         name,
         username,
         password,
       })
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        saveUserData(res.data.body);
+        toast.success("נרשמת בהצלחה למערכת, אנא המתן לאישור מנהלי מערכת");
+      })
+      .catch((err) => {
+        let toast_msg = "";
+        switch (err.response.status) {
+          case 422:
+            toast_msg = "אנא הזן שם משתמש, שם מלא וסיסמא תקינים";
+            break;
+          case 409:
+            toast_msg = "שם משתמש קיים במערכת";
+            break;
+          default:
+            toast_msg = "חלה שגיאה במהלך ההרשמה, אנא נסה שנית מאוחר יותר";
+            break;
+        }
+        toast.error(toast_msg);
+      });
+  };
 
   return (
     <section className="h-full" dir="rtl">
@@ -59,7 +80,7 @@ const Register = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  מספר אישי
+                  שם משתמש
                 </label>
                 <input
                   value={username}
@@ -68,7 +89,7 @@ const Register = () => {
                   name="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
-                  placeholder="לדוג' 1234567"
+                  placeholder="לדוג' יוסי123"
                 />
               </div>
               <div>

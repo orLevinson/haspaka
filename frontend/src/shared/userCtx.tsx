@@ -10,6 +10,8 @@ import {
 import axios from "axios";
 // types imports
 import { userData, userDataCtx } from "../types/userData";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UserCtx = createContext<userDataCtx>({
   logout: () => {},
@@ -19,6 +21,7 @@ const UserCtx = createContext<userDataCtx>({
 
 const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<userData>({});
+  const navigate = useNavigate();
 
   const saveUserData = useCallback(
     (data: userData) => {
@@ -37,6 +40,8 @@ const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
   const logout = useCallback(() => {
     setUserData({});
     localStorage.clear();
+    navigate("/login");
+    toast.info("התנתקת מהמערכת");
   }, []);
 
   //   auto login if token is ok and auto logout and clear token if expired
