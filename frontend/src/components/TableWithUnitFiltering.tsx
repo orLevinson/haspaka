@@ -11,8 +11,8 @@ const TableWithUnitFiltering = (props) => {
 
     const [selectedUnit, setSelectedUnit] = useState({});
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([
-        { field: 'unit_name', headerName: 'אוגדה', filter: true, editable: false },
-        { field: 'item_name', headerName: 'פריט', filter: true, editable: false },
+        { field: 'unit_name', headerName: 'אוגדה', filter: true, editable: false, sort: "asc" },
+        { field: 'item_name', headerName: 'פריט', filter: true, editable: false, sort: "asc" },
         { field: 'value', headerName: 'כמות', filter: true },
     ]);
 
