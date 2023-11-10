@@ -88,7 +88,9 @@ const GenericGrid = (props: GenericGridProps) => {
 
   const update = (item: any) => {
     const itemAttribute = `${props.type.slice(0, -1)}_id`;
-    const urlToPatch = props.isTableWithUnitFiltering ? url : `${url}/${item[itemAttribute]}`;
+    const urlToPatch = props.isTableWithUnitFiltering
+      ? url
+      : `${url}/${item[itemAttribute]}`;
     axios
       .patch(urlToPatch, item, {
         headers: { Authorization: `Bearer ${userData.token}` },
@@ -154,6 +156,8 @@ const GenericGrid = (props: GenericGridProps) => {
           animateRows={true} // Optional - set to 'true' to have rows animate when sorted
           rowSelection="multiple" // Options - allows click selection of rows
           onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+          pagination={true}
+          paginationPageSize={10}
         />
       </div>
     </div>
