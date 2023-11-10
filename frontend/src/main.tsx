@@ -17,6 +17,7 @@ import NeededInventory from "./pages/NeededInventory";
 import MarhasInventory from "./pages/MarhasInventory";
 import { UserDataCtxProvider } from "./shared/userCtx";
 import Users from "./pages/Users";
+import InventoryTracking from "./pages/InventoryTracking";
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        id: "מעקב פערים",
+        path: "/InventoryTracking",
+        element: <InventoryTracking />,
+      },
       {
         id: "ניהול משתמשים",
         path: "/users",
