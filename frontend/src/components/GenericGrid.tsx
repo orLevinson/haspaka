@@ -122,20 +122,20 @@ const GenericGrid = (props: GenericGridProps) => {
               />
             )}
           </div>
-          {!props.noAddOrDelete && (
-            <button
-              onClick={add}
-              className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow"
-            >
-              הוסף
-            </button>
-          )}
-          {0 < selectedRows.length && !props.noAddOrDelete && (
+          {0 < selectedRows.length && !props.noDeleteButton && (
             <button
               onClick={handleRemove}
               className="bg-red-500 hover:bg-red-400 py-2 px-4 text-white rounded-md shadow"
             >
               מחק
+            </button>
+          )}
+          {!props.noAddButton && (
+            <button
+              onClick={add}
+              className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow"
+            >
+              הוסף
             </button>
           )}
         </div>

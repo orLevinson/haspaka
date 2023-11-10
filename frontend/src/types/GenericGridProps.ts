@@ -8,7 +8,8 @@ interface GenericGridProps {
   isTableWithUnitFiltering?: boolean;
   selectedUnit?: unit;
   setSelectedUnit?: any;
-  noAddOrDelete?: boolean;
+  noAddButton?: boolean;
+  noDeleteButton?: boolean;
 }
 
 export type { GenericGridProps };

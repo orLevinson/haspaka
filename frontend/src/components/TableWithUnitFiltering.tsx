@@ -67,7 +67,8 @@ const TableWithUnitFiltering = (props: {
         title={props.title}
         columnDefs={columnDefs}
         isTableWithUnitFiltering={true}
-        noAddOrDelete={true}
+        noAddButton={true}
+        noDeleteButton={true}
         selectedUnit={selectedUnit}
         setSelectedUnit={setSelectedUnit}
       />

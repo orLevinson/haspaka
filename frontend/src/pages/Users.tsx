@@ -67,7 +67,7 @@ const Users = () => {
       title="ניהול משתמשים"
       type="users"
       columnDefs={columnDefs}
-      noAddOrDelete
+      noAddButton={true}
     />
   );
 };
