@@ -13,11 +13,12 @@ const getItemsByCommand = async (
 ) => {
   // #swagger.summary = 'Get items by command'
   // #swagger.description = 'Get items by the user command, admins get all the items'
-  const command_id = req.userData.command_id;
+  const { command_id, command_name } = req.userData;
   const futureSuppliedController = new FutureSuppliedController(next);
-  const futureSuppliedArray = await futureSuppliedController.getByCommand(
-    command_id
-  );
+  const futureSuppliedArray =
+    command_name == "מנהלים"
+      ? await futureSuppliedController.getAll()
+      : await futureSuppliedController.getByCommand(command_id);
   if (futureSuppliedArray) {
     return res.json({ success: true, body: futureSuppliedArray });
   }

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useCheckPermission from "../shared/useCheckPermission";
 
 const Register = () => {
   // localStorage.setItem('jwt', 'abcde');
@@ -10,6 +11,7 @@ const Register = () => {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  useCheckPermission({ permission: "guests" });
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

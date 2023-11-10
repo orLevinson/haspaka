@@ -13,11 +13,12 @@ const getItemsByCommand = async (
 ) => {
   // #swagger.summary = 'Get items by command'
   // #swagger.description = 'Get items by the user command, admins get all the items'
-  const command_id = req.userData.command_id;
+  const { command_id, command_name } = req.userData;
   const neededInventoryController = new NeededInventoryController(next);
-  const neededInventoryArray = await neededInventoryController.getByCommand(
-    command_id
-  );
+  const neededInventoryArray =
+    command_name == "מנהלים"
+      ? await neededInventoryController.getAll()
+      : await neededInventoryController.getByCommand(command_id);
   if (neededInventoryArray) {
     return res.json({ success: true, body: neededInventoryArray });
   }

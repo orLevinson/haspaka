@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { ColDef, ISelectCellEditorParams } from "ag-grid-community";
 import GenericGrid from "../components/GenericGrid";
+import useCheckPermission from "../shared/useCheckPermission";
 
 const Items = () => {
+  useCheckPermission({ permission: "admins" });
   const [columnDefs, _setColumnDefs] = useState<ColDef[]>([
     { field: "item_id", hide: true },
     { field: "item_name", headerName: "שם הפריט", filter: true },

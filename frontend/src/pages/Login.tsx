@@ -2,6 +2,7 @@ import axios from "axios";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import useCheckPermission from "../shared/useCheckPermission";
 import { UserCtx } from "../shared/userCtx";
 
 const Login = () => {
@@ -11,15 +12,8 @@ const Login = () => {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const navigate = useNavigate();
-    const { userData, saveUserData } = React.useContext(UserCtx);
-    const { command_name } = userData;
-
-  useEffect(() => {
-    if (command_name) {
-      navigate("/neededInventory");
-    }
-  },[command_name]);
+    const { saveUserData } = React.useContext(UserCtx);
+    useCheckPermission({permission: "guests"})
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;

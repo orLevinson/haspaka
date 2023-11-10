@@ -7,9 +7,11 @@ import { command } from "../types/command";
 import { ColDef, ISelectCellEditorParams } from "ag-grid-community";
 import GenericGrid from "../components/GenericGrid";
 import { UserCtx } from "../shared/userCtx";
+import useCheckPermission from "../shared/useCheckPermission";
 
 const Units = () => {
   const { userData } = useContext(UserCtx);
+  useCheckPermission({ permission: "admins" });
 
   const commandsQuery = useQuery<command[]>(
     "commands",

@@ -25,7 +25,7 @@ class IdealInventoryController extends DefaultController<IdealInventory> {
         this.CreateJoinedQuery(
           `SELECT * FROM ${this.table} 
             WHERE unit_id IN (
-              SELECT unit_id FROM Commands
+              SELECT unit_id FROM Units
               WHERE command_id=$1
               )`
         ),
