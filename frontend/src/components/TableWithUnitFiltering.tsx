@@ -58,7 +58,7 @@ const TableWithUnitFiltering = (props: {
         editable: props.onlyAdminsCanEdit ? command_name == "מנהלים" : true,
       },
     ]);
-  }, [command_name, props, setColumnDefs]);
+  }, [command_name, props]);
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -66,7 +66,8 @@ const TableWithUnitFiltering = (props: {
         type={props.type}
         title={props.title}
         columnDefs={columnDefs}
-        isReadonly={true}
+        isTableWithUnitFiltering={true}
+        noAddOrDelete={true}
         selectedUnit={selectedUnit}
         setSelectedUnit={setSelectedUnit}
       />

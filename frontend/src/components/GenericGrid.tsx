@@ -13,7 +13,6 @@ const GenericGrid = (props: GenericGridProps) => {
   const url = `${import.meta.env.VITE_REACT_APP_BASE_URL}/${props.type}`;
   const [rowData, setRowData] = useState<any[]>([]);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  // const [data, setData] = useState([]);
   const { userData } = useContext(UserCtx);
 
   const query = useQuery(

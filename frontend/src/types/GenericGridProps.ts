@@ -9,7 +9,6 @@ interface GenericGridProps {
   selectedUnit?: unit;
   setSelectedUnit?: any;
   noAddOrDelete?: boolean;
-  isReadonly?: boolean;
 }
 
 export type { GenericGridProps };
