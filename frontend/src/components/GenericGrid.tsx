@@ -36,7 +36,7 @@ const GenericGrid = (props: GenericGridProps) => {
         )
       );
     }
-  }, [query.data]);
+  }, [query.data, props.columnDefs]);
 
   useEffect(() => {
     if (!props.isTableWithUnitFiltering || !props.selectedUnit) return;
