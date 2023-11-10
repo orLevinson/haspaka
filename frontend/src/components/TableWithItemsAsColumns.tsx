@@ -127,7 +127,7 @@ const TableWithItemsAsColumns = (props) => {
         .catch(err => console.error(err));
 
     return (
-        <div className="flex flex-col justify-center gap-4 w-full">
+        <div className="flex flex-col justify-center gap-4 w-full mt-8">
             <div className="flex justify-between w-[75%] mx-auto">
                 <div className="flex gap-4 relative z-10">
                     {/* <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button> */}
@@ -137,7 +137,7 @@ const TableWithItemsAsColumns = (props) => {
             </div>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine mx-auto w-[75%] h-[70vh] shadow-lg">
+            <div className="ag-theme-alpine mx-auto w-[75%] h-[80vh] shadow-lg">
 
                 <AgGridReact
                     ref={gridRef} // Ref for accessing Grid's API

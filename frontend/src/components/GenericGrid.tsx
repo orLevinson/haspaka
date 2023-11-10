@@ -80,7 +80,7 @@ const GenericGrid = (props: GenericGridProps) => {
             .catch(err => console.error(err));
 
     return (
-        <div className="flex flex-col justify-center gap-4 w-full">
+        <div className="flex flex-col justify-center gap-4 w-full mt-8">
             <div className="flex justify-between w-[50%] mx-auto">
                 <div className="flex gap-4 relative z-10">
                     <div className="absolute z-50">
@@ -93,7 +93,7 @@ const GenericGrid = (props: GenericGridProps) => {
             </div>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine mx-auto w-[50%] h-[70vh] shadow-lg">
+            <div className="ag-theme-alpine mx-auto w-[50%] h-[80vh] shadow-lg">
 
                 <AgGridReact
                     // @ts-ignore
