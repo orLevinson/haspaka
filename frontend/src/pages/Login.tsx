@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as React from "react";
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import useCheckPermission from "../shared/useCheckPermission";
 import { UserCtx } from "../shared/userCtx";
 
