@@ -5,4 +5,4 @@ interface ComboboxProps {
     setSelectedUnit: any;
 }
 
-export { ComboboxProps };
+export type { ComboboxProps };

@@ -3,4 +3,4 @@ type command = {
     command_name: string;
 }
 
-export { command };
+export type { command };

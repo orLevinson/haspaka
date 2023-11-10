@@ -4,4 +4,4 @@ type unit = {
     command_id: number;
 }
 
-export { unit };
+export type { unit };

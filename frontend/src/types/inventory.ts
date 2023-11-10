@@ -4,4 +4,4 @@ type inventory = {
     value: number;
 }
 
-export { inventory };
+export type { inventory };

@@ -9,4 +9,4 @@ type item = {
     item_type: Item_Types;
 }
 
-export { item };
+export type { item };

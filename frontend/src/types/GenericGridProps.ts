@@ -1,3 +1,4 @@
+import { ColDef } from "ag-grid-community";
 import { unit } from "./unit";
 
 interface GenericGridProps {
@@ -9,4 +10,4 @@ interface GenericGridProps {
     setSelectedUnit?: any;
 }
 
-export { GenericGridProps };
+export type { GenericGridProps };
