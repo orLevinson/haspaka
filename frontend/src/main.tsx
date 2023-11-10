@@ -15,7 +15,6 @@ import FutureSupplied from "./pages/FutureSupplied";
 import GivenSoFar from "./pages/GivenSoFar";
 import NeededInventory from "./pages/NeededInventory";
 import MarhasInventory from "./pages/MarhasInventory";
-import { UserDataCtxProvider } from "./shared/userCtx";
 import Users from "./pages/Users";
 import InventoryTracking from "./pages/InventoryTracking";
 
@@ -95,9 +94,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <UserDataCtxProvider>
-      <RouterProvider router={router} />
-    </UserDataCtxProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+    <RouterProvider router={router} />
+  // </React.StrictMode>
 );
