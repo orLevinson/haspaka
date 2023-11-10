@@ -112,7 +112,7 @@ const GenericGrid = (props: GenericGridProps) => {
   return (
     <div className="flex flex-col justify-center gap-4 w-full mt-8">
       <div className="flex justify-between w-[50%] mx-auto">
-        <span className="py-2 text-xl">{props.title}</span>
+        <span className="py-2 text-2xl font-medium">{props.title}</span>
         <div className="flex gap-4 relative z-10">
           <div className="absolute z-50 left-0">
             {props.isTableWithUnitFiltering && (

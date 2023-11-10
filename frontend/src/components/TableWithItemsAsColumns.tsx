@@ -121,27 +121,15 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
 
     update(result);
 
-    // item already exists
-    // if (query.data.find(item => {
-    //     const itemDate = new Date(item.date);
-    //     itemDate.setMilliseconds(0);
-    //     console.log(`itemDate: ${itemDate}`);
-    //     console.log(`date: ${date}`);
-    //     return itemDate === date && item.item_id === itemId;
-    // })) console.log('update');
-    // if (query.data.find(item => item.date === date && item.item_id === itemId)) update(result);
-
-    // item not exists
-    // else console.log('insert');
     // else insert(result);
   };
 
   const handleRemove = () => { };
 
-//   @ts-ignore
-  const insert = (item: inventory) =>
+  //   @ts-ignore
+  const insert = () =>
     axios
-      .post(url, item, {
+      .post(url, undefined, {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((_res) => query.refetch())
@@ -158,9 +146,8 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
   return (
     <div className="flex flex-col justify-center gap-4 w-full mt-8">
       <div className="flex justify-between w-[75%] mx-auto">
-        <span className="py-2 text-xl">{props.title}</span>
+        <span className="py-2 text-2xl font-medium">{props.title}</span>
         <div className="flex gap-4 relative z-10">
-          {/* <button onClick={add} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button> */}
           {0 < selectedRows.length && (
             <button
               onClick={handleRemove}
@@ -169,6 +156,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
               מחק
             </button>
           )}
+          <button onClick={insert} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
         </div>
       </div>
 
