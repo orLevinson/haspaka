@@ -11,6 +11,7 @@ import LoginIcon from "./icons/LoginIcon";
 import PresentationChart from "./icons/PresentationChart";
 import QueueList from "./icons/QueueList";
 import RegisterIcon from "./icons/RegisterIcon";
+import UsersGroup from "./icons/UsersGroup";
 import { Sidebar } from "./Sidebar";
 import SidebarItem from "./SidebarItem";
 
@@ -22,6 +23,7 @@ const SidebarWithRoutes = () => {
         <>
           <hr className="my-2 border-t border-hr" />
           <SidebarItem to="/commands" icon={<ListBullet />} text="פיקודים" />
+          <SidebarItem to="/users" icon={<UsersGroup />} text="ניהול משתמשים" />
           <SidebarItem to="/units" icon={<QueueList />} text="אוגדות" />
           <SidebarItem to="/items" icon={<InboxStack />} text="פריטים" />
         </>
@@ -56,7 +58,7 @@ const SidebarWithRoutes = () => {
             text='מלאי מרה"ס'
           />
           <SidebarItem
-            to="/units"
+            to="/InventoryTracking"
             icon={<PresentationChart />}
             text="מעקב פערים"
           />
