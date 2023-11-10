@@ -35,7 +35,7 @@ const Units = () => {
       });
       setCommandMappings(c);
     }
-  }, [commandsQuery.data]);
+  }, [commandsQuery]);
 
   useEffect(() => {
     setColumnDefs([
@@ -58,7 +58,7 @@ const Units = () => {
         refData: commandMappings,
       },
     ]);
-  }, [commandMappings]);
+  }, [commandMappings, setColumnDefs]);
 
   return (
     <GenericGrid type="units" title="הגדרת אוגדות" columnDefs={columnDefs} />
