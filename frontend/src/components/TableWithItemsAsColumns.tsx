@@ -92,28 +92,37 @@ const TableWithItemsAsColumns = (props) => {
 
     const handleChange = (e: CellValueChangedEvent<TData>) => {
         const itemId = parseInt(e.column.getColId());
-        const value = e.newValue;
+        const value = parseInt(e.newValue);
         const date: Date = e.data.date;
-        const result = { item_id: itemId, value: value, date: date.toISOString() };
+        const result = { item_id: itemId, value: value, date: date };
 
-        console.log(result);
+        update(result);
 
         // item already exists
-        if (query.data.find(item => item.date === date.toISOString() && item.item_id === itemId)) update(result);
+        // if (query.data.find(item => {
+        //     const itemDate = new Date(item.date);
+        //     itemDate.setMilliseconds(0);
+        //     console.log(`itemDate: ${itemDate}`);
+        //     console.log(`date: ${date}`);
+        //     return itemDate === date && item.item_id === itemId;
+        // })) console.log('update');
+        // if (query.data.find(item => item.date === date && item.item_id === itemId)) update(result);
 
         // item not exists
-        else insert(result);
+        // else console.log('insert');
+        // else insert(result);
+
     }
 
     const handleRemove = () => {
 
     }
 
-    const insert = (item: inventory) => axios.post(url, item)
+    const insert = (item: inventory) => axios.post(url, item, { headers: { Authorization: `Bearer ${userData.token}` } })
         .then(res => query.refetch())
         .catch(err => console.error(err));
 
-    const update = (item: inventory) => axios.patch(url, item)
+    const update = (item: inventory) => axios.patch(url, item, { headers: { Authorization: `Bearer ${userData.token}` } })
         .then(res => query.refetch())
         .catch(err => console.error(err));
 
