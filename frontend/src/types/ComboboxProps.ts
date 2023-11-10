@@ -1,7 +1,7 @@
 import { unit } from "./unit";
 
 interface ComboboxProps {
-    selectedUnit: unit;
+    selectedUnit?: unit;
     setSelectedUnit: any;
 }
 

@@ -88,7 +88,7 @@ const GenericGrid = (props: GenericGridProps) => {
 
   const update = (item: any) => {
     const itemAttribute = `${props.type.slice(0, -1)}_id`;
-    const urlToPatch = props.tableWithUnitFiltering ? url : `${url}/${item[itemAttribute]}`;
+    const urlToPatch = props.isTableWithUnitFiltering ? url : `${url}/${item[itemAttribute]}`;
     axios
       .patch(urlToPatch, item, {
         headers: { Authorization: `Bearer ${userData.token}` },
