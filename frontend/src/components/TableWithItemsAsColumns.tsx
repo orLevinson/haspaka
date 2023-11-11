@@ -125,7 +125,6 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
   };
 
   const handleRemove = () => {
-    console.log(selectedRows[0].date);
     if (!selectedRows[0] || !selectedRows[0].date) {
       return;
     }

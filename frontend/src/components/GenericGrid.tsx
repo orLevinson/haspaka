@@ -46,7 +46,6 @@ const GenericGrid = (props: GenericGridProps) => {
 
   useEffect(() => {
     if (query.data) {
-      console.log(query.data);
 
       setRowData(
         filterData(
