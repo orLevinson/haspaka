@@ -26,4 +26,6 @@ ENV ENV = "production"
 
 RUN npm run swagger
 
-CMD npm run publish
+RUN npm run build
+
+CMD npm run serve
