@@ -57,9 +57,13 @@ router.patch(
 );
 
 router.delete(
-  "/:uid",
-  [param("uid").not().isEmpty(), param("uid").isString()],
-  usersMiddleware.deleteUser
+  "",
+  [
+    check("users_ids").not().isEmpty(),
+    check("users_ids").isArray(),
+    check("users_ids.*").isNumeric(),
+  ],
+  usersMiddleware.deleteUsers
 );
 
 export default router;

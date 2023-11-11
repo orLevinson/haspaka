@@ -179,19 +179,28 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.summary = 'Delete user'
-  // #swagger.description = 'Delete a user based on user id - Admin only'
+const deleteUsers = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.summary = 'Delete users'
+  // #swagger.description = 'Delete  users based on user id - Admin only'
+  /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/deleteUnits"
+                    }  
+                }
+            }
+        } */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const user_id: number[] = [parseInt(req.params.uid)];
   const usersController = new UsersController(next);
-  const user = await usersController.deleteUser(user_id);
-  res.json({ success: true, body: user });
+  const users = await usersController.deleteUsers(req.body.users_ids);
+  res.json({ success: true, body: users });
 };
 
 const checkToken = async (req: Request, res: Response, next: NextFunction) => {
@@ -211,4 +220,4 @@ const checkToken = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getUsers, register, login, updateUser, deleteUser, checkToken };
+export { getUsers, register, login, updateUser, deleteUsers, checkToken };

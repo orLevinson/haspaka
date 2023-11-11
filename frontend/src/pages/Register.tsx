@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useCheckPermission from "../shared/useCheckPermission";
 import { UserCtx } from "../shared/userCtx";
@@ -14,6 +14,7 @@ const Register = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   useCheckPermission({ permission: "guests" });
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -31,6 +32,7 @@ const Register = () => {
       .then((res) => {
         saveUserData(res.data.body);
         toast.success("נרשמת בהצלחה למערכת, אנא המתן לאישור מנהלי מערכת");
+        navigate("/login");
       })
       .catch((err) => {
         let toast_msg = "";

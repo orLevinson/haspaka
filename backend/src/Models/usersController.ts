@@ -90,12 +90,14 @@ class CommandsController extends DefaultController<User> {
     }
   }
 
-  async deleteUser(user_id: number[]) {
-    const users = await this.delete(user_id);
+  async deleteUsers(users_id: number[]) {
+    const users = await this.delete(users_id);
     if (users && users.length > 0) {
-      const copy = { ...users[0] };
-      delete copy.password;
-      return copy;
+      return users.map((user) => {
+        const copy = { ...user };
+        delete copy.password;
+        return copy;
+      });
     }
   }
 }

@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { UserCtx } from "../shared/userCtx";
 import axios from "axios";
 import { command } from "../types/command";
+import { toast } from "react-toastify";
 
 const Users = () => {
   const { userData } = useContext(UserCtx);
@@ -18,7 +19,10 @@ const Users = () => {
         .get(import.meta.env.VITE_REACT_APP_BASE_URL + "/commands", {
           headers: { Authorization: `Bearer ${userData.token}` },
         })
-        .then((res) => res.data.body),
+        .then((res) => res.data.body).catch(()=>{
+          toast.error("חלה שגיאה בעת שליפת הנתונים");
+          return [];
+        }),
     { enabled: userData.token !== undefined }
   );
 

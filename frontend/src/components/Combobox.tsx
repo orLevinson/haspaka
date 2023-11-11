@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Combobox = (props: ComboboxProps) => {
-
   const { userData } = useContext(UserCtx);
 
   const unitsQuery = useQuery<unit[]>(
@@ -19,7 +18,11 @@ const Combobox = (props: ComboboxProps) => {
         .get(import.meta.env.VITE_REACT_APP_BASE_URL + "/units", {
           headers: { Authorization: `Bearer ${userData.token}` },
         })
-        .then((res) => res.data.body),
+        .then((res) => res.data.body)
+        .catch(() => {
+          toast.error("חלה שגיאה בעת שליפת הנתונים");
+          return [];
+        }),
     { enabled: userData.token !== undefined }
   );
 
@@ -33,7 +36,7 @@ const Combobox = (props: ComboboxProps) => {
 
   useEffect(() => {
     setFilteredUnits(units.filter((unit) => unit.unit_name.includes(query)));
-  }, [query.data]);
+  }, [query]);
 
   const handleClear = () => {
     setQuery("");

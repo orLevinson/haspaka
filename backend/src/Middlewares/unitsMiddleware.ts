@@ -8,11 +8,20 @@ import Request from "../Types/ExtendedRequest";
 // Random ID
 import { v4 as uuid } from "uuid";
 
-const getUnits = async (req: Request, res: Response, next: NextFunction) => {
+const getUnitsByCommand = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   // #swagger.summary = 'Get all units'
-  // #swagger.description = 'Get array of all the units joined with their commands name - Admin only'
+  // #swagger.description = 'Get array of all the units joined with their commands name by permission(admins - all, command users - only units from their command) - Admin and command users'
   const unitsController = new UnitsController(next);
-  const units = await unitsController.getAll();
+  let units: any;
+  if (req.userData.command_name == "מנהלים") {
+    units = await unitsController.getAll();
+  } else {
+    units = await unitsController.getByCommandId(req.userData.command_id);
+  }
   if (units) {
     return res.json({ success: true, body: units });
   }
@@ -91,7 +100,7 @@ const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
 const deleteUnits = async (req: Request, res: Response, next: NextFunction) => {
   // #swagger.summary = 'Delete unit'
   // #swagger.description = 'Deletes a unit, triggers a TRIGGER on the DB that deletes any row in any table that references this unit - Admins Only'
-    /*  #swagger.requestBody = {
+  /*  #swagger.requestBody = {
             required: true,
             content: {
                 "application/json": {
@@ -115,4 +124,4 @@ const deleteUnits = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getUnits, addUnit, updateUnit, deleteUnits };
+export { getUnitsByCommand, addUnit, updateUnit, deleteUnits };

@@ -92,6 +92,9 @@ const doc = {
       patchUser: {
         $command_id: 1,
       },
+      deleteUsers: {
+        $users_ids: [1, 2, 3],
+      },
       // units schemas
       addUnit: {
         unit_name: "unit name",

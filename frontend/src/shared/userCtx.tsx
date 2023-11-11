@@ -68,6 +68,7 @@ const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
         })
         .then((res) => {
           // auto login message
+          toast.success("התחברת אוטומטית למערכת")
           saveUserData({ ...res.data.body, token });
           // when tokenExp ends
           setTimeout(() => {

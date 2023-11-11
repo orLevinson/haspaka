@@ -30,7 +30,11 @@ const Login = () => {
       })
       .then((res) => {
         saveUserData(res.data.body);
-        toast.success("התחברת בהצלחה");
+        if (!res.data.body.command_id) {
+          toast.info("המשתמש עדיין לא אושר על ידי מנהל מערכת");
+        } else {
+          toast.success("התחברת בהצלחה");
+        }
       })
       .catch((err) => {
         let toast_msg = "";

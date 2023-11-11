@@ -30,29 +30,37 @@ const GenericGrid = (props: GenericGridProps) => {
     { enabled: userData.token !== undefined }
   );
 
+  const { selectedUnit, isTableWithUnitFiltering } = props;
+  const filterData = useCallback(
+    (data: any) => {
+      if (!props.isTableWithUnitFiltering || !props.selectedUnit) return data;
+      if (Object.keys(props.selectedUnit).length < 1) return data;
+      else
+        return data.filter(
+          (row: { unit_id: number | undefined }) =>
+            row.unit_id === props.selectedUnit?.unit_id
+        );
+    },
+    [selectedUnit, isTableWithUnitFiltering]
+  );
+
   useEffect(() => {
     if (query.data) {
       console.log(query.data);
 
       setRowData(
-        query.data.map((item: { date: string | Date }) =>
-          item.date ? { ...item, date: new Date(item.date) } : item
+        filterData(
+          query.data.map((item: { date: string | Date }) =>
+            item.date ? { ...item, date: new Date(item.date) } : item
+          )
         )
       );
     }
-  }, [query.data, props.columnDefs]);
+  }, [query.data, props.columnDefs, filterData]);
 
   useEffect(() => {
-    if (!props.isTableWithUnitFiltering || !props.selectedUnit) return;
-    if (Object.keys(props.selectedUnit).length < 1) setRowData(query.data);
-    else
-      setRowData(
-        query.data.filter(
-          (row: { unit_id: number | undefined }) =>
-            row.unit_id === props.selectedUnit?.unit_id
-        )
-      );
-  }, [props.selectedUnit]);
+    setRowData((prev) => filterData(prev));
+  }, [filterData]);
 
   const defaultColDef = {
     sortable: true,
@@ -82,7 +90,10 @@ const GenericGrid = (props: GenericGridProps) => {
       .post(url, undefined, {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
-      .then((_res) => query.refetch())
+      .then((_res) => {
+        toast.success("רשומה חדשה נוספה בהצלחה");
+        return query.refetch();
+      })
       .catch(() => toast.error("חלה שגיאה במהלך הוספת הנתונים"));
 
   const update = (item: any) => {
@@ -106,7 +117,11 @@ const GenericGrid = (props: GenericGridProps) => {
         },
         data: { [key]: ids },
       })
-      .then((_res) => query.refetch())
+      .then((_res) => {
+        toast.info("הנתונים נמחקו בהצלחה");
+        setSelectedRows([]);
+        return query.refetch();
+      })
       .catch(() => toast.error("חלה שגיאה במהלך מחיקת הנתונים"));
 
   return (

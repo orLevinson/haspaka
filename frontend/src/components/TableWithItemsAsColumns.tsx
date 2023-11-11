@@ -68,12 +68,12 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
         cellRenderer: (data: any) =>
           data.value
             ? new Date(data.value).toLocaleDateString("en-IL", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-            })
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              })
             : "",
       };
       const colDefs: ColDef[] = [dateColDef].concat(
@@ -124,15 +124,40 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
     // else insert(result);
   };
 
-  const handleRemove = () => { };
+  const handleRemove = () => {
+    console.log(selectedRows[0].date);
+    if (!selectedRows[0] || !selectedRows[0].date) {
+      return;
+    }
+    const date = selectedRows[0].date;
+    const formattedDate = new Date(date).toISOString();
+    remove(formattedDate);
+  };
 
-  //   @ts-ignore
+  const remove = (dateStr: string) =>
+    axios
+      .delete(url, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+        data: { date: dateStr },
+      })
+      .then((_res) => {
+        toast.info("הנתונים נמחקו בהצלחה");
+        setSelectedRows([]);
+        return query.refetch();
+      })
+      .catch(() => toast.error("חלה שגיאה במהלך מחיקת הנתונים"));
+
   const insert = () =>
     axios
       .post(url, undefined, {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
-      .then((_res) => query.refetch())
+      .then((_res) => {
+        toast.success("רשומה חדשה נוספה בהצלחה");
+        query.refetch();
+      })
       .catch(() => toast.error("חלה שגיאה במהלך הוספת הנתונים"));
 
   const update = (item: inventory) =>
@@ -156,7 +181,12 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
               מחק
             </button>
           )}
-          <button onClick={insert} className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow">הוסף</button>
+          <button
+            onClick={insert}
+            className="bg-teal-700 hover:bg-teal-600 text-white py-2 px-4 rounded-md shadow"
+          >
+            הוסף
+          </button>
         </div>
       </div>
 
@@ -172,7 +202,7 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
           defaultColDef={defaultColDef} // Default Column Properties
           enableCellChangeFlash={true}
           animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-          rowSelection="multiple" // Options - allows click selection of rows
+          rowSelection="single" // Options - allows click selection of rows
           onCellClicked={cellClickedListener} // Optional - registering for Grid Event
         />
       </div>

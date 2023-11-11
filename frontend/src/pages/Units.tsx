@@ -8,6 +8,7 @@ import { ColDef, ISelectCellEditorParams } from "ag-grid-community";
 import GenericGrid from "../components/GenericGrid";
 import { UserCtx } from "../shared/userCtx";
 import useCheckPermission from "../shared/useCheckPermission";
+import { toast } from "react-toastify";
 
 const Units = () => {
   const { userData } = useContext(UserCtx);
@@ -20,7 +21,10 @@ const Units = () => {
         .get(import.meta.env.VITE_REACT_APP_BASE_URL + "/commands", {
           headers: { Authorization: `Bearer ${userData.token}` },
         })
-        .then((res) => res.data.body),
+        .then((res) => res.data.body).catch(()=>{
+          toast.error("חלה שגיאה בעת שליפת הנתונים");
+          return []
+        }),
     { enabled: userData.token !== undefined }
   );
 
