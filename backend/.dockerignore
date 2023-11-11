@@ -1,0 +1,6 @@
+# ignore unnecessary folders
+node_modules
+dist
+tests
+# ignore env
+.env
