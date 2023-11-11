@@ -4,20 +4,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Units from "./pages/Units";
-import Commands from "./pages/Commands";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Items from "./pages/Items";
-import IdealInventory from "./pages/IdealInventory";
-import FutureSupplied from "./pages/FutureSupplied";
-import GivenSoFar from "./pages/GivenSoFar";
-import NeededInventory from "./pages/NeededInventory";
-import MarhasInventory from "./pages/MarhasInventory";
-import Users from "./pages/Users";
-import InventoryTracking from "./pages/InventoryTracking";
-
+const Units = React.lazy(() => import("./pages/Units"));
+const Commands = React.lazy(() => import("./pages/Commands"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Register = React.lazy(() => import("./pages/Register"));
+const Items = React.lazy(() => import("./pages/Items"));
+const IdealInventory = React.lazy(() => import("./pages/IdealInventory"));
+const FutureSupplied = React.lazy(() => import("./pages/FutureSupplied"));
+const GivenSoFar = React.lazy(() => import("./pages/GivenSoFar"));
+const NeededInventory = React.lazy(() => import("./pages/NeededInventory"));
+const MarhasInventory = React.lazy(() => import("./pages/MarhasInventory"));
+const Users = React.lazy(() => import("./pages/Users"));
+const InventoryTracking = React.lazy(() => import("./pages/InventoryTracking"));
 
 const router = createBrowserRouter([
   {
@@ -85,16 +86,10 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
-      // {
-      //   path: "/logout",
-      //   element: <Logout />,
-      // },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // <React.StrictMode>
-    <RouterProvider router={router} />
-  // </React.StrictMode>
+  <RouterProvider router={router} />
 );

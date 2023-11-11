@@ -37,12 +37,16 @@ const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
     [setUserData]
   );
 
-  const logout = useCallback(() => {
+  const logoutNoToast = useCallback(() => {
     setUserData({});
     localStorage.clear();
     navigate("/login");
-    toast.info("התנתקת מהמערכת");
   }, []);
+
+  const logout = useCallback(() => {
+    logoutNoToast();
+    toast.info("התנתקת מהמערכת");
+  }, [logoutNoToast]);
 
   //   auto login if token is ok and auto logout and clear token if expired
   useEffect(() => {
@@ -51,13 +55,13 @@ const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
       const tokenExp = localStorage.getItem("tokenExp");
 
       if (!token || !tokenExp) {
-        return logout();
+        return logoutNoToast();
       }
 
       const currentDate = new Date();
       const tokenExpDate = new Date(tokenExp);
       if (currentDate >= tokenExpDate) {
-        return logout();
+        return logoutNoToast();
       }
 
       axios
@@ -68,7 +72,7 @@ const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
         })
         .then((res) => {
           // auto login message
-          toast.success("התחברת אוטומטית למערכת")
+          toast.success("התחברת אוטומטית למערכת");
           saveUserData({ ...res.data.body, token });
           // when tokenExp ends
           setTimeout(() => {
@@ -76,7 +80,7 @@ const UserDataCtxProvider = ({ children }: { children: ReactNode }) => {
             logout();
           }, tokenExpDate.getTime() - currentDate.getTime());
         })
-        .catch((_err) => logout());
+        .catch(() => logoutNoToast());
     };
     wrapper();
   }, [saveUserData, logout]);

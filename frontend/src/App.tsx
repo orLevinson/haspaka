@@ -5,7 +5,8 @@ import bg from "./assets/bg.png";
 import { UserDataCtxProvider } from "./shared/userCtx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Suspense } from "react";
+import LoadingOverlay from "./components/LoadingOverlay";
 
 function App() {
   const queryClient = new QueryClient();
@@ -26,7 +27,9 @@ function App() {
           {/* <Navbar /> */}
           <SidebarWithRoutes />
           <div className="w-full h-full font-assistant" dir="rtl">
-            <Outlet />
+            <Suspense fallback={<LoadingOverlay />}>
+              <Outlet />
+            </Suspense>
           </div>
           <ToastContainer
             position="bottom-left"
