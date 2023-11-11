@@ -120,8 +120,6 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
     const result = { item_id: itemId, value: value, date: date };
 
     update(result);
-
-    // else insert(result);
   };
 
   const handleRemove = () => {
