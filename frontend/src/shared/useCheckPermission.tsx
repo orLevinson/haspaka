@@ -7,9 +7,9 @@ const useCheckPermission = ({
 }: {
   permission: "admins" | "commands" | "guests";
 }) => {
+  
   const navigate = useNavigate();
   const { userData } = useContext(UserCtx);
-
   const { command_name } = userData;
   const first_reload = useRef(true);
 
@@ -33,7 +33,7 @@ const useCheckPermission = ({
           return navigate("/login");
       }
     };
-    if (first_reload.current) {
+    if (first_reload.current && !command_name) {
       first_reload.current = false;
     } else {
       wrapper();

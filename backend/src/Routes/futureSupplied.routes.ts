@@ -5,7 +5,7 @@ import * as futureSuppliedMiddleware from "../Middlewares/futureSuppliedMiddlewa
 import {
   getAuth,
   hasCommand,
-  hasPermissionToUnit,
+  onlyAdmins,
 } from "../Middlewares/authMiddleware";
 
 const router = express.Router();
@@ -21,6 +21,8 @@ router.use((_req, _res, next) => {
 
 router.get("/", futureSuppliedMiddleware.getItemsByCommand);
 
+router.use(onlyAdmins);
+
 router.patch(
   "/",
   [
@@ -31,7 +33,6 @@ router.patch(
     check("item_id").not().isEmpty(),
     check("item_id").isNumeric(),
   ],
-  hasPermissionToUnit,
   futureSuppliedMiddleware.updateItemValue
 );
 
