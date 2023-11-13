@@ -28,8 +28,8 @@ router.patch(
   [
     check("value").not().isEmpty(),
     check("value").isInt({ min: 0 }),
-    check("unit_id").not().isEmpty(),
-    check("unit_id").isNumeric(),
+    check("command_id").not().isEmpty(),
+    check("command_id").isNumeric(),
     check("item_id").not().isEmpty(),
     check("item_id").isNumeric(),
   ],

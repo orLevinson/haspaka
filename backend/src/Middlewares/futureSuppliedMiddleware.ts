@@ -48,11 +48,11 @@ const updateItemValue = async (
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const { unit_id, item_id, value } = req.body;
+  const { command_id, item_id, value } = req.body;
   const futureSuppliedController = new FutureSuppliedController(next);
   const futureSupplied = await futureSuppliedController.UpdateValue(
     item_id,
-    unit_id,
+    command_id,
     value
   );
   if (futureSupplied) {

@@ -1,8 +1,10 @@
+import { command } from "./command";
 import { unit } from "./unit";
 
 interface ComboboxProps {
-    selectedUnit?: unit;
-    setSelectedUnit: any;
+    selected?: unit | command;
+    setSelected: any;
+    filtering: string;
 }
 
 export type { ComboboxProps };

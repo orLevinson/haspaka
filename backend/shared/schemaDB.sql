@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Needed_Inventory (
 ); -- 
 CREATE TABLE IF NOT EXISTS Future_Supplied (
     item_id INTEGER REFERENCES Items(item_id),
-    unit_id INTEGER REFERENCES Units(unit_id),
+    command_id INTEGER REFERENCES Commands(command_id),
     value INTEGER NOT NULL CHECK(value >= 0)
 ); -- 
 CREATE TABLE IF NOT EXISTS Inventory_Tracking (
@@ -68,6 +68,8 @@ $$
             WHERE command_id=OLD.command_id;
         DELETE FROM Units
             WHERE command_id=OLD.command_id;
+        DELETE FROM Future_Supplied
+            WHERE command_id=OLD.command_id;
         RETURN OLD;
     END
 $$;
@@ -91,8 +93,6 @@ $$
             WHERE unit_id=OLD.unit_id;
         DELETE FROM Needed_Inventory
             WHERE unit_id=OLD.unit_id;
-        DELETE FROM Future_Supplied
-            WHERE unit_id=OLD.unit_id;
         RETURN OLD;
     END
 $$;
@@ -106,6 +106,28 @@ CREATE TRIGGER delete_unit_trigger
     FOR EACH ROW
     EXECUTE PROCEDURE delete_unit();
 --
+CREATE OR REPLACE FUNCTION create_command()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+AS
+$$
+    BEGIN
+        INSERT INTO Future_Supplied(item_id, command_id, value)
+            SELECT DISTINCT i.item_id, NEW.command_id, 0
+            FROM Items AS i;
+        RETURN NEW;
+    END
+$$;
+--
+DROP TRIGGER IF EXISTS create_command_trigger
+ON public.commands;
+--
+CREATE TRIGGER create_command_trigger
+    AFTER INSERT
+    ON Commands
+    FOR EACH ROW
+    EXECUTE PROCEDURE create_command();
+--
 CREATE OR REPLACE FUNCTION create_unit()
     RETURNS TRIGGER
     LANGUAGE PLPGSQL
@@ -116,9 +138,6 @@ $$
             SELECT DISTINCT i.item_id, NEW.unit_id, 0
             FROM Items AS i;
         INSERT INTO Needed_Inventory(item_id, unit_id, value)
-            SELECT DISTINCT i.item_id, NEW.unit_id, 0
-            FROM Items AS i;
-        INSERT INTO Future_Supplied(item_id, unit_id, value)
             SELECT DISTINCT i.item_id, NEW.unit_id, 0
             FROM Items AS i;
         RETURN NEW;
@@ -177,9 +196,9 @@ $$
                INSERT INTO Needed_Inventory(item_id, unit_id, value)
             SELECT DISTINCT NEW.item_id, i.unit_id, 0
             FROM Units AS i;
-              INSERT INTO Future_Supplied(item_id, unit_id, value)
-            SELECT DISTINCT NEW.item_id, i.unit_id, 0
-            FROM Units AS i;
+              INSERT INTO Future_Supplied(item_id, command_id, value)
+            SELECT DISTINCT NEW.item_id, i.command_id, 0
+            FROM Commands AS i;
         RETURN NEW;
     END
 $$;

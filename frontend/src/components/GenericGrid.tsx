@@ -30,18 +30,23 @@ const GenericGrid = (props: GenericGridProps) => {
     { enabled: userData.token !== undefined }
   );
 
-  const { selectedUnit, isTableWithUnitFiltering } = props;
+  const { selected, isTableWithFiltering } = props;
   const filterData = useCallback(
     (data: any) => {
-      if (!props.isTableWithUnitFiltering || !props.selectedUnit) return data;
-      if (Object.keys(props.selectedUnit).length < 1) return data;
+      if (!props.isTableWithFiltering || !props.selected) return data;
+      if (Object.keys(props.selected).length < 1) return data;
       else
-        return data.filter(
-          (row: { unit_id: number | undefined }) =>
-            row.unit_id === props.selectedUnit?.unit_id
-        );
+        return props.filtering === 'units'
+          ? data.filter(
+            (row: { unit_id: number | undefined }) =>
+              row.unit_id === props.selected?.unit_id
+          )
+          : data.filter(
+            (row: { command_id: number | undefined }) =>
+              row.command_id === props.selected?.command_id
+          );
     },
-    [selectedUnit, isTableWithUnitFiltering]
+    [selected, isTableWithFiltering]
   );
 
   useEffect(() => {
@@ -97,7 +102,7 @@ const GenericGrid = (props: GenericGridProps) => {
 
   const update = (item: any) => {
     const itemAttribute = `${props.type.slice(0, -1)}_id`;
-    const urlToPatch = props.isTableWithUnitFiltering
+    const urlToPatch = props.isTableWithFiltering
       ? url
       : `${url}/${item[itemAttribute]}`;
     axios
@@ -129,10 +134,11 @@ const GenericGrid = (props: GenericGridProps) => {
         <span className="py-2 text-2xl font-medium">{props.title}</span>
         <div className="flex gap-4 relative z-10">
           <div className="absolute z-50 left-0">
-            {props.isTableWithUnitFiltering && (
+            {props.isTableWithFiltering && (
               <Combobox
-                selectedUnit={props.selectedUnit}
-                setSelectedUnit={props.setSelectedUnit}
+                selected={props.selected}
+                setSelected={props.setSelected}
+                filtering={props.filtering}
               />
             )}
           </div>
@@ -170,7 +176,7 @@ const GenericGrid = (props: GenericGridProps) => {
           rowSelection="multiple" // Options - allows click selection of rows
           onCellClicked={cellClickedListener} // Optional - registering for Grid Event
           pagination={true}
-          paginationAutoPageSize={true} 
+          paginationAutoPageSize={true}
         />
       </div>
     </div>

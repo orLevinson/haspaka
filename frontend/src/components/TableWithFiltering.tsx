@@ -1,45 +1,27 @@
 import { ColDef } from "ag-grid-community";
 import { useContext, useEffect, useState } from "react";
-import GenericGrid from "../components/GenericGrid";
+import GenericGrid from "./GenericGrid";
 import { UserCtx } from "../shared/userCtx";
 import { unit } from "../types/unit";
+import { command } from "../types/command";
 
-const TableWithUnitFiltering = (props: {
+const TableWithFiltering = (props: {
   type: string;
   title: string;
+  filtering: boolean;
   onlyAdminsCanEdit?: boolean;
 }) => {
+
   const { userData } = useContext(UserCtx);
   const { command_name } = userData;
-  const [selectedUnit, setSelectedUnit] = useState<unit | undefined>();
-  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
-    {
-      field: "unit_name",
-      headerName: "אוגדה",
-      filter: true,
-      editable: false,
-      sort: "asc",
-    },
-    {
-      field: "item_name",
-      headerName: "פריט",
-      filter: true,
-      editable: false,
-      sort: "asc",
-    },
-    {
-      field: "value",
-      headerName: "כמות",
-      filter: true,
-      editable: props.onlyAdminsCanEdit ? command_name == "מנהלים" : true,
-    },
-  ]);
+  const [selected, setSelected] = useState<command | unit | undefined>();
+  const [columnDefs, setColumnDefs] = useState<ColDef[]>([]);
 
   useEffect(() => {
     setColumnDefs([
       {
-        field: "unit_name",
-        headerName: "אוגדה",
+        field: props.filtering === 'units' ? "unit_name" : "command_name",
+        headerName: props.filtering === 'units' ? "אוגדה" : 'פיקוד',
         filter: true,
         editable: false,
         sort: "asc",
@@ -66,14 +48,15 @@ const TableWithUnitFiltering = (props: {
         type={props.type}
         title={props.title}
         columnDefs={columnDefs}
-        isTableWithUnitFiltering={true}
+        isTableWithFiltering={true}
         noAddButton={true}
         noDeleteButton={true}
-        selectedUnit={selectedUnit}
-        setSelectedUnit={setSelectedUnit}
+        selected={selected}
+        setSelected={setSelected}
+        filtering={props.filtering}
       />
     </div>
   );
 };
 
-export default TableWithUnitFiltering;
+export default TableWithFiltering;

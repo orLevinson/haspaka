@@ -1,10 +1,14 @@
-import TableWithUnitFiltering from "../components/TableWithUnitFiltering";
+import TableWithFiltering from "../components/TableWithFiltering";
 import useCheckPermission from "../shared/useCheckPermission";
 
 const NeededInventory = () => {
   useCheckPermission({ permission: "commands" });
 
-  return <TableWithUnitFiltering type="neededInventory" title="פערים" />;
+  return <TableWithFiltering
+    type="neededInventory"
+    title="פערים"
+    filtering="units"
+  />;
 };
 
 export default NeededInventory;

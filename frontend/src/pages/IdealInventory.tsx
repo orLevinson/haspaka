@@ -1,14 +1,15 @@
-import TableWithUnitFiltering from "../components/TableWithUnitFiltering";
+import TableWithFiltering from "../components/TableWithFiltering";
 import useCheckPermission from "../shared/useCheckPermission";
 
 const IdealInventory = () => {
   useCheckPermission({ permission: "commands" });
 
   return (
-    <TableWithUnitFiltering
+    <TableWithFiltering
       type="idealInventory"
       title="תקן מודל"
       onlyAdminsCanEdit={true}
+      filtering="units"
     />
   );
 };
