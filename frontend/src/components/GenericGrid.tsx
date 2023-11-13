@@ -170,7 +170,7 @@ const GenericGrid = (props: GenericGridProps) => {
           rowSelection="multiple" // Options - allows click selection of rows
           onCellClicked={cellClickedListener} // Optional - registering for Grid Event
           pagination={true}
-          paginationPageSize={10}
+          paginationAutoPageSize={true} 
         />
       </div>
     </div>
