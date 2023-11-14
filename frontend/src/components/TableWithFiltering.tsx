@@ -8,7 +8,7 @@ import { command } from "../types/command";
 const TableWithFiltering = (props: {
   type: string;
   title: string;
-  filtering: boolean;
+  filtering: string;
   onlyAdminsCanEdit?: boolean;
 }) => {
 

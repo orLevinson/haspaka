@@ -7,6 +7,8 @@ import Combobox from "../components/Combobox";
 import { CellValueChangedEvent } from "ag-grid-community";
 import { UserCtx } from "../shared/userCtx";
 import { toast } from "react-toastify";
+import { unit } from "../types/unit";
+import { command } from "../types/command";
 
 const GenericGrid = (props: GenericGridProps) => {
   const gridRef = useRef<AgGridReact>();
@@ -30,21 +32,22 @@ const GenericGrid = (props: GenericGridProps) => {
     { enabled: userData.token !== undefined }
   );
 
+  const isUnit = (item: unit | command): item is unit => {
+    return 'unit_id' in item && 'unit_name' in item;
+  }
+
   const { selected, isTableWithFiltering } = props;
   const filterData = useCallback(
     (data: any) => {
       if (!props.isTableWithFiltering || !props.selected) return data;
       if (Object.keys(props.selected).length < 1) return data;
       else
-        return props.filtering === 'units'
-          ? data.filter(
-            (row: { unit_id: number | undefined }) =>
-              row.unit_id === props.selected?.unit_id
-          )
-          : data.filter(
-            (row: { command_id: number | undefined }) =>
-              row.command_id === props.selected?.command_id
-          );
+        return data.filter(
+          (row: { unit_id: number | undefined, command_id: number | undefined }) =>
+            props.selected && isUnit(props.selected)
+              ? row.unit_id === props.selected?.unit_id
+              : row.command_id === props.selected?.command_id
+        )
     },
     [selected, isTableWithFiltering]
   );
@@ -138,7 +141,7 @@ const GenericGrid = (props: GenericGridProps) => {
               <Combobox
                 selected={props.selected}
                 setSelected={props.setSelected}
-                filtering={props.filtering}
+                filtering={props.filtering ?? ''}
               />
             )}
           </div>
