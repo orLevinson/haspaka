@@ -12,7 +12,7 @@ class IdealInventoryController extends DefaultController<IdealInventory> {
     super({
       errCallback,
       table: "ideal_inventory",
-      columns: ["item_id", "unit_id", "value"],
+      columns: ["date", "item_id", "unit_id", "value"],
       id_column: "",
       joins: { Items: "item_id", Units: "unit_id" },
     });
@@ -47,11 +47,11 @@ class IdealInventoryController extends DefaultController<IdealInventory> {
       const { rows }: { rows: Array<IdealInventory> } = await pool.query(
         this.CreateJoinedQuery(
           `UPDATE ${this.table}
-            SET value=$1
+            SET value=$1, date=$4
             WHERE item_id=$2 AND unit_id=$3
             RETURNING *`
         ),
-        [value, item_id, unit_id]
+        [value, item_id, unit_id, new Date()]
       );
 
       if (rows.length == 0) {

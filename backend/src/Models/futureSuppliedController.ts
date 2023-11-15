@@ -10,7 +10,7 @@ class FutureSuppliedController extends IdealInventoryController {
   constructor(errCallback: NextFunction) {
     super(errCallback);
     this.table = "future_supplied";
-    this.columns = ["item_id", "command_id", "value"];
+    this.columns = ["date", "item_id", "command_id", "value"];
     this.joins = { Items: "item_id", Commands: "command_id" };
   }
 
@@ -41,11 +41,11 @@ class FutureSuppliedController extends IdealInventoryController {
       const { rows }: { rows: Array<IdealInventory> } = await pool.query(
         this.CreateJoinedQuery(
           `UPDATE ${this.table}
-            SET value=$1
+            SET value=$1, date=$4
             WHERE item_id=$2 AND command_id=$3
             RETURNING *`
         ),
-        [value, item_id, command_id]
+        [value, item_id, command_id, new Date()]
       );
 
       if (rows.length == 0) {

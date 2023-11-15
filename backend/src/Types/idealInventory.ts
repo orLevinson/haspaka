@@ -3,6 +3,7 @@ type IdealInventory = {
   item_name?: string;
   unit_id: number;
   unit_name?: string;
+  date: Date | null;
 };
 
 export { IdealInventory };

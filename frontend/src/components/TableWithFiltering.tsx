@@ -20,6 +20,22 @@ const TableWithFiltering = (props: {
   useEffect(() => {
     setColumnDefs([
       {
+        field: 'date',
+        headerName: 'עדכון אחרון',
+        filter: true,
+        editable: false,
+        cellRenderer: (data: any) =>
+          data.value
+            ? new Date(data.value).toLocaleDateString("en-IL", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            })
+            : "",
+      },
+      {
         field: props.filtering === 'units' ? "unit_name" : "command_name",
         headerName: props.filtering === 'units' ? "אוגדה" : 'פיקוד',
         filter: true,
