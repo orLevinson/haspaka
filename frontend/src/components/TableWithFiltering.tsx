@@ -24,6 +24,11 @@ const TableWithFiltering = (props: {
         headerName: 'עדכון אחרון',
         filter: true,
         editable: false,
+        cellStyle: params =>
+          (new Date().getTime() - new Date(params.value).getTime()) <= 60 * 60 * 24 * 1000
+            ? { color: 'black' }
+            : { color: 'rgba(200, 0, 0)' }
+        ,
         cellRenderer: (data: any) =>
           data.value
             ? new Date(data.value).toLocaleDateString("en-IL", {
