@@ -1,5 +1,5 @@
 import { ColDef } from "ag-grid-community";
-import { useContext, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import GenericGrid from "./GenericGrid";
 import { UserCtx } from "../shared/userCtx";
 import { unit } from "../types/unit";
@@ -10,6 +10,7 @@ const TableWithFiltering = (props: {
   title: string;
   filtering: string;
   onlyAdminsCanEdit?: boolean;
+  decription: ReactElement;
 }) => {
 
   const { userData } = useContext(UserCtx);
@@ -75,6 +76,7 @@ const TableWithFiltering = (props: {
         selected={selected}
         setSelected={setSelected}
         filtering={props.filtering}
+        description={props.decription}
       />
     </div>
   );

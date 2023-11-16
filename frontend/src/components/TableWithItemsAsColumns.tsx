@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { inventory } from "../types/inventory";
 import { item } from "../types/item";
@@ -12,7 +12,7 @@ import axios from "axios";
 import { UserCtx } from "../shared/userCtx";
 import { toast } from "react-toastify";
 
-const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
+const TableWithItemsAsColumns = (props: { type: string; title: string, description: ReactElement }) => {
   const { userData } = useContext(UserCtx);
 
   const itemsQuery = useQuery<item[]>(
@@ -186,9 +186,11 @@ const TableWithItemsAsColumns = (props: { type: string; title: string }) => {
           </button>
         </div>
       </div>
-
+      <div className="w-[75%] mx-auto text-[0.9rem] bg-white/30 p-2 rounded-md">
+        {props.description}
+      </div>
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-      <div className="ag-theme-alpine mx-auto w-[75%] h-[80vh] shadow-lg">
+      <div className="ag-theme-alpine mx-auto w-[75%] h-[70vh] shadow-lg">
         <AgGridReact
           // @ts-ignore
           ref={gridRef} // Ref for accessing Grid's API

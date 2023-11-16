@@ -163,9 +163,11 @@ const GenericGrid = (props: GenericGridProps) => {
           )}
         </div>
       </div>
-
+      <div className="w-[50%] mx-auto text-[0.9rem] bg-white/30 p-2 rounded-md">
+        {props.description}
+      </div>
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-      <div className="ag-theme-alpine mx-auto w-[50%] h-[80vh] shadow-lg">
+      <div className="ag-theme-alpine mx-auto w-[50%] h-[70vh] shadow-lg">
         <AgGridReact
           // @ts-ignore
           ref={gridRef} // Ref for accessing Grid's API

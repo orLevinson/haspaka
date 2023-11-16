@@ -26,7 +26,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           {/* <Navbar /> */}
           <SidebarWithRoutes />
-          <div className="w-full h-full font-assistant" dir="rtl">
+          <div className="w-full h-full font-assistant overflow-y-auto pb-12" dir="rtl">
             <Suspense fallback={<LoadingOverlay />}>
               <Outlet />
             </Suspense>
